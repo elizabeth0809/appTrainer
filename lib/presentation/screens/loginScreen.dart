@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/presentation/widgets/button.dart';
+import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -105,9 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 // Botón login
-                ButtonBlue(),
+                ButtonBlue(link: '/home', text: 'Entrar',),
 
-                const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
                 // Texto registro
                Row(
@@ -117,9 +117,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text('¿No tienes cuenta?'),
                 
                 TextButton(
-                  onPressed: () {
-                    // TODO: navegar a registro
-                  },
+                     onPressed: () {
+                        context.push('/register');
+                       // Navigator.pushNamed(context, '/forget');
+                      },
                   child: const Text('Regístrate',
                   style: TextStyle(
                           fontWeight: FontWeight.bold,

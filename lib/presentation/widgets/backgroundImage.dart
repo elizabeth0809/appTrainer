@@ -10,8 +10,8 @@ class BackgroundImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
-        width: 250,
-        height: 250,
+        width: 150,
+        height: 150,
         //si no hay imagen
         //child: url == null ?
         child: Image(

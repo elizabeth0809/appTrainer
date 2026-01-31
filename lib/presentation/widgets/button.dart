@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ButtonBlue extends StatelessWidget {
-  const ButtonBlue({super.key});
+  final String link;
+  final String text;
+  const ButtonBlue({super.key, required this.link, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +23,10 @@ class ButtonBlue extends StatelessWidget {
                           const SnackBar(content: Text('Login válido')),
                         );
                       }*/
+                      context.push(link);
                     },
 
-                    child: const Text('Entrar'),
+                    child: Text(text),
                   ),
                 );
   }
