@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/config/router/app_router.dart';
 import 'package:trainer_app/config/theme/app_theme.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 void main() async {
 // Inicializa el binding de Flutter antes de cualquier otra cosa
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('es_ES', null);
   // Ejecuta la aplicación
  runApp(const ProviderScope(child: MyApp()));
 }

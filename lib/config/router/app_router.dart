@@ -27,14 +27,31 @@ final router = GoRouter(
       builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
-      path: '/scheduling',
-      builder: (context, state) => const schedulingScreen(),
+      path: '/editInfo ',
+      builder: (context, state) => const EditInfoScreen(),
     ),
-    /*
+    
     GoRoute(
       path: '/permissions',
-      builder: (context, state) => const (),
-    ),*/
-
-
+      builder: (context, state) => const PermissionsScreen(),
+    ),
+    GoRoute(
+      path: '/scheduling',
+      builder: (context, state) => const SchedulingScreen(),
+    ),
+    GoRoute(
+      path: '/home',
+      builder: (context, state) {return HomeScreen();},
+        routes: [
+    GoRoute(
+      path: '/editInfoId',
+      builder: (context, state) => const SchedulingCreateScreen(),
+    ),
+    GoRoute(
+      path: '/confirm',
+      builder: (context, state) => const ConfirmScreen(),
+    ),
+  ],
+    ),
+    
 ]);

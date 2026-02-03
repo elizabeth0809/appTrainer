@@ -16,7 +16,7 @@ class ForgetScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BackgroundImage(),
+              BackgroundImage('assets/contrasena.png'),
               const SizedBox(height: 20),
               Text(
                 'Recupera tu contrasena',

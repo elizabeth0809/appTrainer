@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatelessWidget {
-  //final String? url;
+  final String url;
 
   //const _BackgroundImage(this.url);
-  const BackgroundImage();
+  const BackgroundImage(this.url);
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -15,7 +15,7 @@ class BackgroundImage extends StatelessWidget {
         //si no hay imagen
         //child: url == null ?
         child: Image(
-                image: AssetImage('assets/contrasena.png'),
+                image: AssetImage(url),
                 fit: BoxFit.cover,
               )
            /* : FadeInImage(
