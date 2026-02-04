@@ -15,7 +15,7 @@ class _SchedulingScreenState extends State<SchedulingCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(title: const Text('Personalizacion')),
+      appBar: AppBar(title: const Text('Personalizacion')),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -23,28 +23,22 @@ class _SchedulingScreenState extends State<SchedulingCreateScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Divider(),
-              DateTimeSelector(
+            DateTimeSelector(
               onChanged: (dateTime) {
-                setState(() {
-                  selectedDateTime = dateTime;
-                });
-                debugPrint('Seleccionado: $dateTime');
+                if (!mounted) return; // Verifica si el widget sigue vivo
+                setState(() => selectedDateTime = dateTime);
               },
             ),
-          ObjetivoDropdown(),
-          const SizedBox(height: 16),
-          ObjetivoDropdown(),
-          const SizedBox(height: 16),
-          ObjetivoDropdown(),
-          const SizedBox(height: 16),
-          ButtonBlue(link: '/home/confirm', text: 'Guardar'),
-
+            ObjetivoDropdown(),
+            const SizedBox(height: 16),
+            ObjetivoDropdown(),
+            const SizedBox(height: 16),
+            ObjetivoDropdown(),
+            const SizedBox(height: 16),
+            ButtonBlue(link: '/home/confirm', text: 'Guardar'),
           ],
         ),
       ),
     );
   }
-
 }
-
-
