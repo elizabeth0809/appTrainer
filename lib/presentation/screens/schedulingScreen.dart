@@ -1,54 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/domain/models/data.dart';
+import 'package:trainer_app/domain/controller/exerciseController.dart';
+import 'package:trainer_app/domain/service/exerciseService.dart';
+
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
-class SchedulingScreen extends StatefulWidget {
+import '../../domain/models/model.dart';
+final ExerciseControllerProvider = StateNotifierProvider((ref){
+return ExerciseController(
+  ExerciseState.initial()
+);
+});
+class SchedulingScreen extends ConsumerStatefulWidget {
   const SchedulingScreen({super.key});
 
   @override
-  State<SchedulingScreen> createState() => _SchedulingScreenState();
+  ConsumerState<SchedulingScreen> createState() => _SchedulingScreenState();
 }
 
-class _SchedulingScreenState extends State<SchedulingScreen> {
+class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
+  late ExerciseController _exerciseController;
+  late ExerciseState _exerciseData;
   int selectedIndex = -1; // ninguno seleccionado al inicio
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Ejercicios'), elevation: 0),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Divider(),
-            Expanded(
-              child: ListView.separated(
-                itemCount: exercises.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final exercise = exercises[index];
-                  final isSelected = selectedIndex == index;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                    child: Schedulingcard(
-                      isSelected: isSelected,
-                      title: exercise.title,
-                      type: exercise.type,
-                      price: exercise.price,
-                      image: exercise.image,
-                    ),
-                  );
-                },
-              ),
-            ),
-            _nextButton(),
-          ],
+    _exerciseController = ref.watch(ExerciseControllerProvider.notifier);
+    _exerciseData = ref.watch(ExerciseControllerProvider);
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Ejercicios'), elevation: 0),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Divider(),
+             /* Expanded(
+                child: ListView.separated(
+                  itemCount: 0,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final Exercise exercise = exercises[index];
+                    final isSelected = selectedIndex == index;
+      
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      child: Schedulingcard(
+                        isSelected: isSelected,
+                        title: exercise.name,
+                        type: exercise.modalities,
+                        price: exercise.price,
+                        image: exercise.img,
+                      ),
+                    );
+                  },
+                ),
+              ),*/
+              _nextButton(),
+            ],
+          ),
         ),
       ),
     );

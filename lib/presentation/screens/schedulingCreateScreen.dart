@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trainer_app/domain/models/data.dart';
+
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class SchedulingCreateScreen extends StatefulWidget {
