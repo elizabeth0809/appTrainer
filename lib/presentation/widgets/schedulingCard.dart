@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class Schedulingcard extends StatelessWidget {
-
   final bool isSelected;
   final String title;
   final String type;
   final String price;
   final String image;
-  const Schedulingcard({super.key, required this.isSelected, required this.title, required this.type, required this.price, required this.image});
+  const Schedulingcard({
+    super.key,
+    required this.isSelected,
+    required this.title,
+    required this.type,
+    required this.price,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +35,31 @@ class Schedulingcard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
+            child: Image.network(
               image,
               width: 56,
               height: 56,
               fit: BoxFit.cover,
+              // Se ejecuta si la imagen falla (404, error de red, etc.)
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  width: 56,
+                  height: 56,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.fitness_center, color: Colors.grey),
+                );
+              },
+              // Opcional: muestra algo mientras la imagen descarga
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(width: 12),
@@ -52,9 +78,7 @@ class Schedulingcard extends StatelessWidget {
                 Text(
                   type,
                   style: TextStyle(
-                    color: isSelected
-                        ? Colors.white70
-                        : Colors.grey.shade600,
+                    color: isSelected ? Colors.white70 : Colors.grey.shade600,
                   ),
                 ),
               ],
@@ -70,6 +94,5 @@ class Schedulingcard extends StatelessWidget {
         ],
       ),
     );
-    
   }
 }

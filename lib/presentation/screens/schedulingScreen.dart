@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/exerciseController.dart';
-import 'package:trainer_app/domain/service/exerciseService.dart';
+import 'package:trainer_app/domain/provider/exerciseService.dart';
 
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
@@ -26,9 +26,11 @@ class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
   int selectedIndex = -1; // ninguno seleccionado al inicio
   @override
   Widget build(BuildContext context) {
-    _exerciseController = ref.watch(ExerciseControllerProvider.notifier);
-    _exerciseData = ref.watch(ExerciseControllerProvider);
-    return SafeArea(
+// Escuchamos el estado
+    final exerciseState = ref.watch(ExerciseControllerProvider);
+    // Suponiendo que tu ExerciseState tiene una propiedad llamada 'data' que es List<Exercise>?
+    final exercises = exerciseState.data ?? [];
+     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text('Ejercicios'), elevation: 0),
         body: Padding(
@@ -37,9 +39,9 @@ class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Divider(),
-             /* Expanded(
+             Expanded(
                 child: ListView.separated(
-                  itemCount: 0,
+                  itemCount: exercises.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final Exercise exercise = exercises[index];
@@ -51,17 +53,17 @@ class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
                           selectedIndex = index;
                         });
                       },
-                      child: Schedulingcard(
-                        isSelected: isSelected,
-                        title: exercise.name,
-                        type: exercise.modalities,
-                        price: exercise.price,
-                        image: exercise.img,
-                      ),
+                    child: Schedulingcard(
+                            isSelected: isSelected,
+                            title: exercise.name,        // De tu modelo
+                            type: exercise.modalities,  // De tu modelo
+                            price: exercise.price.toString(), // De tu modelo (convertido a double si es necesario)
+                            image: exercise.img.toString(),         // De tu modelo
+                          ),
                     );
                   },
                 ),
-              ),*/
+              ),
               _nextButton(),
             ],
           ),
