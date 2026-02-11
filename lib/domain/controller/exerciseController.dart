@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:get_it/get_it.dart';
-import 'package:trainer_app/domain/provider/exerciseService.dart';
+import 'package:trainer_app/domain/provider/exerciseProvider.dart';
 import 'package:trainer_app/global/http.dart';
 
 

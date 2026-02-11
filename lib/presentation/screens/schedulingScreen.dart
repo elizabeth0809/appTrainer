@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/exerciseController.dart';
-import 'package:trainer_app/domain/provider/exerciseService.dart';
+import 'package:trainer_app/domain/provider/exerciseProvider.dart';
 
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
