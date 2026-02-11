@@ -10,29 +10,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  int page = 0;
 
-  final List<Widget> pages = const [
-    HomeContent(),        // Tu contenido actual
-    SchedulingScreen(),
-   PermissionsScreen(),
-  ];
-
+  final  pages = const [HomeContent(),SchedulingScreen(),PermissionsScreen()];
+  void changePage(int index) => setState(() {
+    page = index;
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: pages[page],
       bottomNavigationBar: CustomBottomNav(
-        currentIndex: selectedIndex,
+        currentIndex: page,
         onTap: (index) {
           setState(() {
-            selectedIndex = index;
+            page = index;
           });
         },
-      ),
-      body: IndexedStack(
-        index: selectedIndex,
-        children: pages,
-      ),
+      ),  
     );
   }
 }
