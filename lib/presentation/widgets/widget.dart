@@ -13,4 +13,5 @@ export 'schedulingCard.dart';
 export 'dateTimeSelectorCard.dart';
 export 'loginTextFormfield.dart';
 export 'loginButton.dart';
-
+export 'registerTextFormField.dart';
+export 'registerButton.dart';

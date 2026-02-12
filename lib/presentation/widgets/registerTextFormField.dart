@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginTextFormField extends ConsumerWidget {
+class RegisterTextFormField extends ConsumerWidget {
+  final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  const LoginTextFormField({
+  final TextEditingController password_confirmation;
+  const RegisterTextFormField({
     super.key,
     required this.emailController,
     required this.passwordController,
+    required this.nameController,
+    required this.password_confirmation,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool rememberMe = false;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-       
+        //name
+        TextFormField(
+          controller: nameController,
+          keyboardType: TextInputType.name,
+          decoration: const InputDecoration(
+            labelText: 'Nombre Completo',
+            prefixIcon: Icon(Icons.account_box),
+            border: OutlineInputBorder(),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Ingresa tu nombre';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 16),
         // Email
         TextFormField(
           controller: emailController,
@@ -39,7 +58,6 @@ class LoginTextFormField extends ConsumerWidget {
         ),
 
         const SizedBox(height: 16),
-
         // Password
         TextFormField(
           obscureText: true,
@@ -56,8 +74,24 @@ class LoginTextFormField extends ConsumerWidget {
             return null;
           },
         ),
-
-        
+        //confirm
+        const SizedBox(height: 16),
+        TextFormField(
+          controller: password_confirmation,
+          keyboardType: TextInputType.visiblePassword,
+          decoration: const InputDecoration(
+            labelText: 'Confirma tu contrasena',
+            prefixIcon: Icon(Icons.password),
+            border: OutlineInputBorder(),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Ingresa tu contrasena';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }

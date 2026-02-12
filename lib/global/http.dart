@@ -20,6 +20,22 @@ class HttpService {
       throw Exception('$err');
     }
   }
+  //register
+  Future<Map<String, dynamic>> register(String body) async {
+    final url = Uri.parse('$_baseUrl/api/register/');
+
+    try {
+      final response = await http.post(url, body: body, headers: {'Content-Type': 'application/json'});
+      final statusCode = response.statusCode;
+      if (statusCode >= 200 && statusCode < 300) {
+      return jsonDecode(response.body);
+    }
+    final errorBody = jsonDecode(response.body);
+    throw Exception(errorBody['message'] ?? '$statusCode Error');
+    } catch (err) {
+      throw Exception('$err');
+    }
+  }
   //excercises
   Future<List<Exercise>> getExercises() async {
     final url = Uri.parse('$_baseUrl/api/exercise');
