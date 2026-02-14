@@ -6,9 +6,9 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(26),
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(26),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -18,7 +18,7 @@ class HomeContent extends StatelessWidget {
             ),
             const Divider(),
             const SizedBox(height: 16),
-
+        
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -60,26 +60,7 @@ class HomeContent extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               const Divider(),
-              const SizedBox(height: 12),
-
-              const ExerciseCard(
-                title: 'Musculatura',
-                subtitle: '1 hora - Presencial',
-                date: '15/12',
-                total: 'R\$ 20',
-              ),
-              const ExerciseCard(
-                title: 'Brazos',
-                subtitle: '1 hora - Online',
-                date: '15/12',
-                total: 'R\$ 50',
-              ),
-              const ExerciseCard(
-                title: 'Piernas',
-                subtitle: '1 hora - Híbrido',
-                date: '15/12',
-                total: 'R\$ 25',
-              ),
+              const ExerciseCard(),
           ],
         ),
       ),

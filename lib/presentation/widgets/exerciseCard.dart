@@ -1,90 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 
-class ExerciseCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String date;
-  final String total;
+class ExerciseCard extends ConsumerStatefulWidget {
+  const ExerciseCard({super.key});
 
-  const ExerciseCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.date,
-    required this.total,
-  });
+  @override
+  ConsumerState<ExerciseCard> createState() => _ExerciseCardState();
+}
+
+class _ExerciseCardState extends ConsumerState<ExerciseCard> {
+  @override
+  void initState() {
+    super.initState();
+    // Ejecutar después del primer frame para evitar conflictos de construcción
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(userSchedulingProvider.notifier).getAll();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF6F7FB),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          // Información izquierda
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 13),
-                ),
-                const SizedBox(height: 8),
-                Row(
+    final state = ref.watch(userSchedulingProvider);
+    final userSchedulings = state.userS;
+
+    if (userSchedulings.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: userSchedulings.length,
+      itemBuilder: (ctx, index) {
+        final userScheduling = userSchedulings[index];
+       return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF6F7FB),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Data: $date',
+                      userScheduling.exercise.name,
                       style: const TextStyle(
-                        fontSize: 13,
                         fontWeight: FontWeight.bold,
+                        fontSize: 15,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(height: 4),
                     Text(
-                      'Total: $total',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      'Modalidad: ${userScheduling.exercise.modalities}',
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text(
+                          'Start: ${userScheduling.openingSchedule.day}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        /*const SizedBox(width: 16),
+                        Text(
+                          'End: ${userScheduling.endTime}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),*/
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-
-          // Acciones
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  // TODO editar
-                },
-                icon: const Icon(Icons.edit, color: Colors.green),
               ),
-              IconButton(
-                onPressed: () {
-                  // TODO eliminar
-                },
-                icon: const Icon(Icons.delete, color: Colors.red),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.edit, color: Colors.green),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
+
