@@ -14,8 +14,6 @@ class OpeningSchedule {
     String day;
     String startTime;
     String endtime;
-    DateTime createdAt;
-    DateTime updatedAt;
 
     OpeningSchedule({
         required this.id,
@@ -23,8 +21,6 @@ class OpeningSchedule {
         required this.day,
         required this.startTime,
         required this.endtime,
-        required this.createdAt,
-        required this.updatedAt,
     });
 
     OpeningSchedule copyWith({
@@ -33,8 +29,6 @@ class OpeningSchedule {
         String? day,
         String? startTime,
         String? endtime,
-        DateTime? createdAt,
-        DateTime? updatedAt,
     }) => 
         OpeningSchedule(
             id: id ?? this.id,
@@ -42,27 +36,22 @@ class OpeningSchedule {
             day: day ?? this.day,
             startTime: startTime ?? this.startTime,
             endtime: endtime ?? this.endtime,
-            createdAt: createdAt ?? this.createdAt,
-            updatedAt: updatedAt ?? this.updatedAt,
         );
 
     factory OpeningSchedule.fromJson(Map<String, dynamic> json) => OpeningSchedule(
-        id: json["id"],
-        name: json["name"],
-        day: json["day"],
-        startTime: json["start_time"],
-        endtime: json["endtime"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-    );
+    id: json["id"],
+    name: json["name"],
+    day: json["day"],
+    startTime: json["start_time"],
+    // CAMBIO: Quita el guion bajo para que coincida con el backend ("endtime")
+    endtime: json["endtime"], 
+);
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "day": day,
         "start_time": startTime,
-        "endtime": endtime,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "end_time": endtime,
     };
 }

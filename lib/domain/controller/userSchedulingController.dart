@@ -16,7 +16,7 @@ final userSchedulingProvider = StateNotifierProvider<UserSchedulingNotifier, Use
   );
 });
 class UserSchedulingState {
-  final List<UserScheduling> userS;
+  final List<Datum> userS;
   final String accessToken;
 
   UserSchedulingState({
@@ -25,7 +25,7 @@ class UserSchedulingState {
   });
 
   UserSchedulingState copyWith({
-    List<UserScheduling>? userS,
+    List<Datum>? userS,
     String? accessToken,
   }) {
     return UserSchedulingState(

@@ -14,8 +14,6 @@ class Exercise {
     int price;
     String img;
     String modalities;
-    DateTime createdAt;
-    DateTime updatedAt;
 
     Exercise({
         required this.id,
@@ -23,8 +21,6 @@ class Exercise {
         required this.price,
         required this.img,
         required this.modalities,
-        required this.createdAt,
-        required this.updatedAt,
     });
 
     Exercise copyWith({
@@ -33,8 +29,6 @@ class Exercise {
         int? price,
         String? img,
         String? modalities,
-        DateTime? createdAt,
-        DateTime? updatedAt,
     }) => 
         Exercise(
             id: id ?? this.id,
@@ -42,8 +36,6 @@ class Exercise {
             price: price ?? this.price,
             img: img ?? this.img,
             modalities: modalities ?? this.modalities,
-            createdAt: createdAt ?? this.createdAt,
-            updatedAt: updatedAt ?? this.updatedAt,
         );
 
     factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
@@ -52,8 +44,6 @@ class Exercise {
         price: json["price"],
         img: json["img"],
         modalities: json["modalities"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -62,7 +52,5 @@ class Exercise {
         "price": price,
         "img": img,
         "modalities": modalities,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
     };
 }

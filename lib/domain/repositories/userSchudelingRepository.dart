@@ -5,10 +5,10 @@ class UserSchudelingRepository {
   final UserSchudelingApi api;
   UserSchudelingRepository(this.api);
 
-  Future<List<UserScheduling>> getAll(String token) async {
-    final List<dynamic> data = await api.getAll(token);
-    
-    // Convertimos la lista de mapas en una lista de objetos de modelo
-    return data.map((item) => UserScheduling.fromJson(item)).toList();
-  }
+Future<List<Datum>> getAll(String token) async {
+  final List<dynamic> data = await api.getAll(token);
+  
+  // Usamos .map((item) => Datum.fromJson(item as Map<String, dynamic>))
+  return data.map((item) => Datum.fromJson(item as Map<String, dynamic>)).toList();
+}
 }

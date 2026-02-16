@@ -63,7 +63,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                     Row(
                       children: [
                         Text(
-                          'Start: ${userScheduling.openingSchedule.day}',
+                          'Dia: ${userScheduling.openingSchedule.day}',
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
