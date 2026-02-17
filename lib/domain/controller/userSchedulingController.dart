@@ -52,4 +52,20 @@ class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
       debugPrint("Error al obtener datos: $e");
     }
   }
+  Future<void> deleteScheduling(int id) async {
+    try {
+      // 1. Llamar al repositorio/API para eliminar en el backend
+      // Debes asegurarte de tener este método en tu UserSchudelingRepository
+      await repositoryService.userSRepository.delete(id, state.accessToken);
+
+      // 2. Actualizar el estado local filtrando el elemento eliminado
+      state = state.copyWith(
+        userS: state.userS.where((element) => element.id != id).toList(),
+      );
+      
+      debugPrint("Agendamiento $id eliminado con éxito");
+    } catch (e) {
+      debugPrint("Error al eliminar: $e");
+    }
+  }
 }

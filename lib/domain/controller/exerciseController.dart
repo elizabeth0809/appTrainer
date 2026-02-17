@@ -2,30 +2,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:get_it/get_it.dart';
 import 'package:trainer_app/domain/provider/exerciseProvider.dart';
-import 'package:trainer_app/global/http.dart';
+import 'package:trainer_app/global/exerciseApi.dart';
 
+/*class ExerciseController extends StateNotifier<ExerciseState> {
+  final ExerciseApi _httpService;
 
-class ExerciseController extends StateNotifier<ExerciseState> {
-  final GetIt _getIt = GetIt.instance;
-  late HttpService _httpService;
-  ExerciseController(super._state){
-    _httpService = _getIt.get<HttpService>();
-    _setup();
-  }
-  Future<void> _setup() async{
+  ExerciseController(this._httpService)
+      : super(ExerciseState.initial()) {
     loadData();
   }
-Future<void> loadData() async {
-  try {
-    final exercises = await _httpService.getExercises();
 
-    print('Cantidad: ${exercises.length}');
+  Future<void> loadData() async {
+    try {
+      state = state.copyWith(isLoading: true);
 
-    // aquí luego:
-    state = state.copyWith(data: exercises);
-  } catch (e) {
-    print('Error al cargar: $e');
+      final exercises = await _httpService.getExercises();
+
+      state = state.copyWith(
+        data: exercises,
+        isLoading: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+      print('Error al cargar: $e');
+    }
   }
-}
-
-}
+}*/

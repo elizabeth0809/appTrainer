@@ -37,24 +37,5 @@ class HttpService {
     }
   }
   //excercises
-  Future<List<Exercise>> getExercises() async {
-    final url = Uri.parse('$_baseUrl/api/exercise');
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        
-        return exerciseFromJson(response.body);
-      } else {
-        print('Status Code: ${response.statusCode}');
-        print('Body: ${response.body}');
-        throw Exception('Error del servidor');
-      }
-    } catch (e) {
-      print('Error de conexión: $e');
-      throw Exception('No se pudo conectar al servidor');
-    }
-  }
 }
 

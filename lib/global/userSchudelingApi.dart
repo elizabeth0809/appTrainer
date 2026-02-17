@@ -27,4 +27,18 @@ class UserSchudelingApi {
     throw Exception('Error de conexión: $err');
   }
 }
+Future<void> delete(int id, String token) async {
+  final uri = Uri.parse('$_url/api/scheduling/$id/');
+  final response = await http.delete(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode != 204 && response.statusCode != 200) {
+    throw Exception('No se pudo eliminar el recurso');
+  }
+}
 }

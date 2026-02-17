@@ -89,9 +89,31 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                     icon: const Icon(Icons.edit, color: Colors.green),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                  ),
+  icon: const Icon(Icons.delete, color: Colors.red),
+  onPressed: () {
+    // Mostrar un diálogo de confirmación es una buena práctica
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('¿Eliminar agendamiento?'),
+        content: const Text('Esta acción no se puede deshacer.'),
+        actions: [
+          TextButton(
+            onPressed:() => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.read(userSchedulingProvider.notifier).deleteScheduling(userScheduling.id);
+              Navigator.pop(context);
+            },
+            child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  },
+),
                 ],
               ),
             ],

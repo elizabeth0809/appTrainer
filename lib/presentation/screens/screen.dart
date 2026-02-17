@@ -7,4 +7,5 @@ export 'homeContent.dart';
 export 'editInfoScreen.dart';
 export 'schedulingCreateScreen.dart';
 export 'confirmScreen.dart';
+export 'exercisesCreateScreen.dart';
 

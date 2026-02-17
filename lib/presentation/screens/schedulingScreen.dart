@@ -1,78 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/domain/controller/exerciseController.dart';
-import 'package:trainer_app/domain/provider/exerciseProvider.dart';
+import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/global/exerciseApi.dart';
 
-import 'package:trainer_app/presentation/widgets/widget.dart';
-
-import '../../domain/models/model.dart';
-final ExerciseControllerProvider = StateNotifierProvider((ref){
-return ExerciseController(
-  ExerciseState.initial()
-);
-});
-class SchedulingScreen extends ConsumerStatefulWidget {
-  const SchedulingScreen({super.key});
-
+class SchedulingScreen extends ConsumerWidget {
   @override
-  ConsumerState<SchedulingScreen> createState() => _SchedulingScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final exercisesState = ref.watch(exerciseServiceProvider);
 
-class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
-  late ExerciseController _exerciseController;
-  late ExerciseState _exerciseData;
-  int selectedIndex = -1; // ninguno seleccionado al inicio
-  @override
-  Widget build(BuildContext context) {
-// Escuchamos el estado
-    final exerciseState = ref.watch(ExerciseControllerProvider);
-    // Suponiendo que tu ExerciseState tiene una propiedad llamada 'data' que es List<Exercise>?
-    final exercises = exerciseState.data ?? [];
-     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Ejercicios'), elevation: 0),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Divider(),
-             Expanded(
-                child: ListView.separated(
-                  itemCount: exercises.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final Exercise exercise = exercises[index];
-                    final isSelected = selectedIndex == index;
-      
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                    child: Schedulingcard(
-                            isSelected: isSelected,
-                            title: exercise.name,        // De tu modelo
-                            type: exercise.modalities,  // De tu modelo
-                            price: exercise.price.toString(), // De tu modelo (convertido a double si es necesario)
-                            image: exercise.img.toString(),         // De tu modelo
-                          ),
-                    );
+    return Scaffold(
+      appBar: AppBar(title: Text('Exercises')),
+      body: exercisesState.isLoading
+          ? Center(child: CircularProgressIndicator())
+          : exercisesState.errorMessage != null
+          ? Center(child: Text('Error: ${exercisesState.errorMessage}'))
+          : ListView.builder(
+              itemCount: exercisesState.exercises.length,
+              itemBuilder: (context, index) {
+                final exercise = exercisesState.exercises[index];
+
+                return GestureDetector(
+                  onTap: () {
+                    // 🔹 Guardamos una copia del exercise seleccionado
+                    ref
+                        .read(exerciseServiceProvider.notifier)
+                        .selectExercise(exercise.copyWith());
+                    context.push('/home/exercise');
                   },
-                ),
-              ),
-              _nextButton(),
-            ],
-          ),
-        ),
-      ),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(exercise.name),
+                      subtitle: Text('Price: \$${exercise.price}'),
+                      trailing: Text(exercise.modalities),
+                    ),
+                  ),
+                );
+              },
+            ),
+
+     floatingActionButton: FloatingActionButton(
+  child: const Icon(Icons.add),
+  onPressed: () {
+
+    final newExercise = Exercise(
+      id: 0,
+      name: '',
+      price: 0,
+      img: '',
+      modalities: '',
+    );
+
+    ref.read(exerciseServiceProvider.notifier)
+        .selectExercise(newExercise);
+
+    Navigator.pushNamed(context, 'exercise');
+  },
+),
     );
   }
+}
 
-  Widget _nextButton() {
+/*  Widget _nextButton() {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Align(
@@ -87,4 +76,4 @@ class _SchedulingScreenState extends ConsumerState<SchedulingScreen> {
       ),
     );
   }
-}
+}*/

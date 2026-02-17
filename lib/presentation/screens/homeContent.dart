@@ -18,7 +18,7 @@ class HomeContent extends StatelessWidget {
             ),
             const Divider(),
             const SizedBox(height: 16),
-        
+
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -54,13 +54,25 @@ class HomeContent extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
+
             Text(
-                'Mis ejercicios',
-                style: Theme.of(context).textTheme.titleSmall,
+              'Mis ejercicios',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 8),
+            const Divider(),
+            /*Positioned(
+              right: 16,
+              bottom: 0,
+              child: FloatingActionButton(
+                onPressed: () {},
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                shape: const CircleBorder(),
+                child: const Icon(Icons.add, size: 28),
               ),
-              const SizedBox(height: 8),
-              const Divider(),
-              const ExerciseCard(),
+            ),*/
+            const ExerciseCard(),
           ],
         ),
       ),
