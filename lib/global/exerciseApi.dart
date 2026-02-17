@@ -79,7 +79,7 @@ print('BODY: ${resp.body}');
   Future<void> updateExercise(Exercise exercise) async {
   final token = await ref.read(secureStorageProvider).read(key: 'token');
 
-  final url = Uri.http(_baseUrl, '/api/exercises/${exercise.id}');
+  final url = Uri.http(_baseUrl, '/api/exercise/${exercise.id}');
 
   final resp = await http.put(
     url,
@@ -105,7 +105,7 @@ print('BODY: ${resp.body}');
   Future<void> createExercise(Exercise exercise) async {
   final token = await ref.read(secureStorageProvider).read(key: 'token');
 
-  final url = Uri.http(_baseUrl, '/api/exercises');
+  final url = Uri.http(_baseUrl, '/api/exercise/');
 
   final resp = await http.post(
     url,
@@ -135,50 +135,79 @@ print('BODY: ${resp.body}');
   }
 
   void updateSelectedExerciseImage(String path) {
-    if (state.selectedExercise != null) {
-      final updatedExercise = state.selectedExercise!.copyWith(img: path);
-      state = state.copyWith(
-        selectedExercise: updatedExercise,
-        newPictureFile: File.fromUri(Uri(path: path)),
-      );
+  if (state.selectedExercise != null) {
+    final updatedExercise = state.selectedExercise!.copyWith(img: path);
+    
+    // Solo crear File si es una ruta local (no una URL)
+    File? newFile;
+    if (path.startsWith('/') || path.startsWith('file://')) {
+      newFile = File(path);
     }
+    
+    state = state.copyWith(
+      selectedExercise: updatedExercise,
+      newPictureFile: newFile,
+    );
   }
+}
 
   Future<String?> uploadImage() async {
-    if (state.newPictureFile == null) return null;
+  if (state.newPictureFile == null) return null;
+  
+  try {
+    state = state.copyWith(isSaving: true);
     
-    try {
-      state = state.copyWith(isSaving: true);
-      
-      final url = Uri.parse(
-          'https://api.cloudinary.com/v1_1/dtxguigqs/image/upload?upload_preset=baseImagenes');
-      
-      final imageUploadRequest = http.MultipartRequest('POST', url);
-      final file = await http.MultipartFile.fromPath('file', state.newPictureFile!.path);
-      imageUploadRequest.files.add(file);
-      
-      final streamResponse = await imageUploadRequest.send();
-      final resp = await http.Response.fromStream(streamResponse);
-      
-      if (resp.statusCode != 200 && resp.statusCode != 201) {
-        print('Error al subir imagen: ${resp.body}');
-        return null;
-      }
-      
-      final decodedData = json.decode(resp.body);
-      
-      state = state.copyWith(
-        isSaving: false,
-        newPictureFile: null,
-      );
-      
-      return decodedData['secure_url'];
-    } catch (e) {
-      state = state.copyWith(isSaving: false);
-      print('Error al subir imagen: $e');
+    // Verificar que el archivo existe antes de subirlo
+    final file = state.newPictureFile!;
+    if (!await file.exists()) {
+      print('El archivo no existe: ${file.path}');
+      state = state.copyWith(isSaving: false, newPictureFile: null);
       return null;
     }
+    
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dtxguigqs/image/upload');
+    
+    final imageUploadRequest = http.MultipartRequest('POST', url);
+    
+    // Usar la ruta del archivo directamente
+    final multipartFile = await http.MultipartFile.fromPath(
+      'file', 
+      file.path,
+      filename: 'exercise_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    );
+    imageUploadRequest.files.add(multipartFile);
+    
+    // Agregar los parámetros de autenticación de Cloudinary
+    imageUploadRequest.fields['upload_preset'] = 'tu_upload_preset'; // Si usas upload preset
+    // O usar autenticación básica
+    imageUploadRequest.headers.addAll({
+      'Authorization': 'Basic ${base64Encode(utf8.encode('417568263796896:I_ui5iN5-uz9CJQZajZEvToxhfw'))}',
+    });
+    
+    final streamResponse = await imageUploadRequest.send();
+    final resp = await http.Response.fromStream(streamResponse);
+    
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('Error al subir imagen: ${resp.body}');
+      state = state.copyWith(isSaving: false);
+      return null;
+    }
+    
+    final decodedData = json.decode(resp.body);
+    
+    state = state.copyWith(
+      isSaving: false,
+      newPictureFile: null,
+    );
+    
+    return decodedData['secure_url'];
+  } catch (e) {
+    print('Error al subir imagen: $e');
+    state = state.copyWith(isSaving: false);
+    return null;
   }
+}
 
 void clearSelectedExercise() {
   state = state.copyWith(

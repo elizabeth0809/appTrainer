@@ -1,86 +1,183 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trainer_app/domain/provider/exerciseProvider.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart'; // Ajusta la ruta a tu provider
 
+class ExerciseFormScreen extends ConsumerStatefulWidget {
+  const ExerciseFormScreen({super.key});
 
-
-class ExerciseFormScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExerciseFormScreen> createState() => _ExerciseFormScreenState();
+}
+
+class _ExerciseFormScreenState extends ConsumerState<ExerciseFormScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final selectedExercise = ref
+          .read(exerciseServiceProvider)
+          .selectedExercise;
+
+      if (selectedExercise != null) {
+        ref
+            .read(exerciseFormProvider.notifier)
+            .updateExercise(selectedExercise);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final formState = ref.watch(exerciseFormProvider);
     final formNotifier = ref.read(exerciseFormProvider.notifier);
-    
+
+    final serviceState = ref.watch(exerciseServiceProvider);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Exercise Form')),
-      body: Form(
-        key: formState.formKey,
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: formState.exercise.name,
-                decoration: InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Name is required';
-                  }
-                  return null;
-                },
-                onChanged: formNotifier.updateName,
-              ),
-              TextFormField(
-                initialValue: formState.exercise.price.toString(),
-                decoration: InputDecoration(labelText: 'Price'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Price is required';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Invalid price';
-                  }
-                  return null;
-                },
-                onChanged: formNotifier.updatePrice,
-              ),
-              TextFormField(
-                initialValue: formState.exercise.modalities,
-                decoration: InputDecoration(labelText: 'Modalities'),
-                onChanged: formNotifier.updateModalities,
-              ),
-              TextFormField(
-                initialValue: formState.exercise.img,
-                decoration: InputDecoration(labelText: 'Image URL'),
-                onChanged: formNotifier.updateImg,
-              ),
-              SizedBox(height: 20),
-              Consumer(
-                builder: (context, ref, child) {
-                  final isSaving = ref.watch(exerciseServiceProvider).isSaving;
-                  return ElevatedButton(
-                    onPressed: isSaving ? null : () async {
-                      if (formNotifier.isValidForm()) {
-                        final service = ref.read(exerciseServiceProvider.notifier);
-                        await service.saveOrCreateExercise(formState.exercise);
-                        Navigator.pop(context);
+      appBar: AppBar(title: const Text('Exercise Form')),
+
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                ExerciseImage(url: formState.exercise.img),
+
+                Positioned(
+                  top: 60,
+                  left: 20,
+                  child: IconButton(
+                    onPressed: () => context.pop(),
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: 60,
+                  right: 20,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+                    // En el método onPressed del IconButton
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      final XFile? pickedFile = await picker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality:
+                            80, // Reducir calidad para ahorrar espacio
+                      );
+
+                      if (pickedFile == null) {
+                        print('No seleccionó nada');
+                        return;
                       }
+
+                      // Verificar que el archivo existe
+                      final file = File(pickedFile.path);
+                      if (!await file.exists()) {
+                        print('El archivo seleccionado no existe');
+                        return;
+                      }
+
+                      // Actualizar con la ruta local
+                      ref
+                          .read(exerciseServiceProvider.notifier)
+                          .updateSelectedExerciseImage(pickedFile.path);
+
+                      formNotifier.updateImg(pickedFile.path);
                     },
-                    child: isSaving
-                        ? SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text('Save'),
-                  );
-                },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Form(
+                key: formState.formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      initialValue: formState.exercise.name,
+                      decoration: const InputDecoration(labelText: 'Name'),
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Name required'
+                          : null,
+                      onChanged: formNotifier.updateName,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextFormField(
+                      initialValue: formState.exercise.price.toString(),
+                      keyboardType: TextInputType.number,
+                      validator: (value) => int.tryParse(value ?? '') == null
+                          ? 'Invalid price'
+                          : null,
+                      onChanged: formNotifier.updatePrice,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextFormField(
+                      initialValue: formState.exercise.modalities,
+                      decoration: const InputDecoration(
+                        labelText: 'Modalities',
+                      ),
+                      onChanged: formNotifier.updateModalities,
+                    ),
+
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        child: serviceState.isSaving
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.save_outlined),
+
+        onPressed: serviceState.isSaving
+            ? null
+            : () async {
+                if (!formNotifier.isValidForm()) return;
+
+                final service = ref.read(exerciseServiceProvider.notifier);
+
+                /// subir imagen si hay nueva
+                final imageUrl = await service.uploadImage();
+
+                if (imageUrl != null) {
+                  formNotifier.updateImg(imageUrl);
+                }
+
+                await service.saveOrCreateExercise(
+                  ref.read(exerciseFormProvider).exercise,
+                );
+
+                context.pop();
+              },
       ),
     );
   }

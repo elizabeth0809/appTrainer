@@ -22,7 +22,6 @@ class SchedulingScreen extends ConsumerWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    // 🔹 Guardamos una copia del exercise seleccionado
                     ref
                         .read(exerciseServiceProvider.notifier)
                         .selectExercise(exercise.copyWith());
@@ -54,7 +53,7 @@ class SchedulingScreen extends ConsumerWidget {
     ref.read(exerciseServiceProvider.notifier)
         .selectExercise(newExercise);
 
-    Navigator.pushNamed(context, 'exercise');
+   context.push('/home/exercise');
   },
 ),
     );

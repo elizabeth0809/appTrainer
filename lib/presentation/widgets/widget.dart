@@ -17,3 +17,4 @@ export 'registerTextFormField.dart';
 export 'registerButton.dart';
 export 'ExerciseTextFormfield.dart';
 export 'exerciseButton.dart';
+export 'exerciseImage.dart';
