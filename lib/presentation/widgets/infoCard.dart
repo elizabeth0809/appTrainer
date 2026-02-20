@@ -71,7 +71,7 @@ Widget _infoRow({
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text(subtitle, style: const TextStyle(color: Colors.black)),
+              Text(subtitle),
             ],
           ),
         ),

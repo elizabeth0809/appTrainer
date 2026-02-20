@@ -17,15 +17,17 @@ void main() async {
 Future<void> _setupServices() async {
   GetIt.instance.registerSingleton<HttpService>(HttpService());
 }
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final isDarkMode = ref.watch(themeProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: '<App Trainer>',
-      theme: AppTheme().getTheme(),
+       theme: AppTheme(isDarkmode: isDarkMode).getTheme(),
       routerConfig: router,
       
       // === AGREGA ESTO ===

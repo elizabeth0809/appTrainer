@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
+class ThemeNotifier extends StateNotifier<bool> {
+  ThemeNotifier() : super(false); // false = light
+
+  void toggleTheme(bool value) {
+    state = value;
+  }
+}
+
+final themeProvider =
+    StateNotifierProvider<ThemeNotifier, bool>(
+        (ref) => ThemeNotifier());
 const colorSeed = Colors.blue;
-const scaffoldBackgroundColor = Colors.white;
-
 class AppTheme {
-
+final bool isDarkmode;
+ AppTheme({ required this.isDarkmode });
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
     colorSchemeSeed: Colors.blue,
-    scaffoldBackgroundColor: scaffoldBackgroundColor,
-
+    scaffoldBackgroundColor: isDarkmode
+      ? const Color(0xFF121212) // negro moderno
+      : Colors.white,
+    brightness: isDarkmode ? Brightness.dark : Brightness.light,
     // Text (fuente nativa: Roboto)
     textTheme: const TextTheme(
       titleLarge: TextStyle(
@@ -25,14 +39,20 @@ class AppTheme {
         fontSize: 20,
       ),
     ),
-
+cardTheme: CardThemeData(
+  color: isDarkmode
+      ? const Color(0xFF1E1E1E)
+      : Colors.white,
+),
     // AppBar
-    appBarTheme: const AppBarTheme(
-      backgroundColor: scaffoldBackgroundColor,
+    appBarTheme:  AppBarTheme(
+       backgroundColor:
+      isDarkmode ? const Color(0xFF121212) : Colors.white,
+      elevation: 0,
       titleTextStyle: TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: isDarkmode ? const Color(0xFF121212) : Colors.white
       ),
     ),
     //textformfield

@@ -34,7 +34,7 @@ class ExerciseServiceNotifier extends StateNotifier<ExercisesState> {
     );
 
 print('STATUS CODE: ${resp.statusCode}');
-print('BODY: ${resp.body}');
+//print('BODY: ${resp.body}');
     if (resp.statusCode == 200) {
       final List<dynamic> decodedData = json.decode(resp.body);
 

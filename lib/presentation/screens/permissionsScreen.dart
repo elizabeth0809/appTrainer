@@ -13,11 +13,13 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const Text('Oi, Usuario', style: TextStyle(color: Colors.black)),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text('Oi, Usuario',    style: TextStyle(
+      color: Theme.of(context).colorScheme.onSurface,
+    ),),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 16),
@@ -26,16 +28,17 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
             ),
           ),
         ],
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData( color: Theme.of(context).colorScheme.onSurface,),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+           Text(
               'Informacion personal',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              selectionColor:  Theme.of(context).colorScheme.surface,
             ),
             const Divider(height: 24),
 
