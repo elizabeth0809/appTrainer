@@ -43,7 +43,6 @@ class SchedulingScreen extends ConsumerWidget {
   onPressed: () {
 
     final newExercise = Exercise(
-      id: 0,
       name: '',
       price: 0,
       img: '',

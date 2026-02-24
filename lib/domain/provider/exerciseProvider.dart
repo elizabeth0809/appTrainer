@@ -78,7 +78,7 @@ class ExerciseFormState {
 class ExerciseFormNotifier extends StateNotifier<ExerciseFormState> {
   ExerciseFormNotifier() : super(ExerciseFormState(
     formKey: GlobalKey<FormState>(),
-    exercise: Exercise(id: 0, name: '', price: 0, img: '', modalities: ''),
+    exercise: Exercise( name: '', price: 0, img: '', modalities: ''),
   ));
 
   void updateExercise(Exercise exercise) {

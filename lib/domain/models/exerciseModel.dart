@@ -9,14 +9,14 @@ List<Exercise> exerciseFromJson(String str) => List<Exercise>.from(json.decode(s
 String exerciseToJson(List<Exercise> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Exercise {
-    int id;
+    int? id;
     String name;
     int price;
     String img;
     String modalities;
 
     Exercise({
-        required this.id,
+         this.id,
         required this.name,
         required this.price,
         required this.img,

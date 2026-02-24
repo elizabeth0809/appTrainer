@@ -16,21 +16,31 @@ class ExerciseFormScreen extends ConsumerStatefulWidget {
 }
 
 class _ExerciseFormScreenState extends ConsumerState<ExerciseFormScreen> {
+  late TextEditingController nameController;
+late TextEditingController priceController;
+
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final selectedExercise = ref
-          .read(exerciseServiceProvider)
-          .selectedExercise;
+final exercise = ref.read(exerciseFormProvider).exercise;
 
-      if (selectedExercise != null) {
-        ref
-            .read(exerciseFormProvider.notifier)
-            .updateExercise(selectedExercise);
-      }
-    });
+  nameController = TextEditingController(text: exercise.name);
+  priceController = TextEditingController(text: exercise.price.toString());
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final selectedExercise =
+        ref.read(exerciseServiceProvider).selectedExercise;
+
+    if (selectedExercise != null) {
+      ref
+          .read(exerciseFormProvider.notifier)
+          .updateExercise(selectedExercise);
+
+      nameController.text = selectedExercise.name;
+      priceController.text = selectedExercise.price.toString();
+    }
+  });
   }
 
   @override
@@ -49,7 +59,6 @@ class _ExerciseFormScreenState extends ConsumerState<ExerciseFormScreen> {
             Stack(
               children: [
                 ExerciseImage(url: formState.exercise.img),
-
                 Positioned(
                   top: 60,
                   left: 20,
@@ -136,12 +145,32 @@ class _ExerciseFormScreenState extends ConsumerState<ExerciseFormScreen> {
 
                     const SizedBox(height: 20),
 
-                    TextFormField(
+                    /*TextFormField(
                       initialValue: formState.exercise.modalities,
                       decoration: const InputDecoration(
                         labelText: 'Modalities',
                       ),
                       onChanged: formNotifier.updateModalities,
+                    ),*/
+                    DropdownButtonFormField<String>(
+                      value: formState.exercise.modalities.isEmpty
+                          ? null
+                          : formState.exercise.modalities,
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'online',
+                          child: Text('Online'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'person',
+                          child: Text('Presencial'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          formNotifier.updateModalities(value);
+                        }
+                      },
                     ),
 
                     const SizedBox(height: 40),

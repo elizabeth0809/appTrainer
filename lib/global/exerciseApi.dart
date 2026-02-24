@@ -60,20 +60,23 @@ print('STATUS CODE: ${resp.statusCode}');
   Future<void> saveOrCreateExercise(Exercise exercise) async {
     try {
       state = state.copyWith(isSaving: true, errorMessage: null);
-      
-      if (exercise.id == 0) {
+      print('ID DEL EJERCICIO: ${exercise.id}');
+      if (exercise.id == null || exercise.id == 0) {
         await createExercise(exercise);
       } else {
         await updateExercise(exercise);
       }
       
       state = state.copyWith(isSaving: false);
-    } catch (e) {
-      state = state.copyWith(
-        isSaving: false,
-        errorMessage: e.toString(),
-      );
-    }
+    } catch (e, stack) {
+  print('ERROR COMPLETO: $e');
+  print(stack);
+  state = state.copyWith(
+    isSaving: false,
+    errorMessage: e.toString(),
+  );
+}
+
   }
 
   Future<void> updateExercise(Exercise exercise) async {
@@ -115,7 +118,8 @@ print('STATUS CODE: ${resp.statusCode}');
     },
     body: json.encode(exercise.toJson()),
   );
-
+ print('CREATE STATUS: ${resp.statusCode}');
+  print('CREATE BODY: ${resp.body}');
   if (resp.statusCode == 201 || resp.statusCode == 200) {
     final decodedData = json.decode(resp.body);
 
@@ -125,6 +129,7 @@ print('STATUS CODE: ${resp.statusCode}');
       exercises: [...state.exercises, newExercise],
     );
   } else {
+    print('JSON ENVIADO: ${json.encode(exercise.toJson())}');
     throw Exception('Error al crear exercise');
   }
 }
@@ -166,36 +171,27 @@ print('STATUS CODE: ${resp.statusCode}');
     }
     
     final url = Uri.parse(
-        'https://api.cloudinary.com/v1_1/dtxguigqs/image/upload');
-    
-    final imageUploadRequest = http.MultipartRequest('POST', url);
-    
-    // Usar la ruta del archivo directamente
-    final multipartFile = await http.MultipartFile.fromPath(
-      'file', 
-      file.path,
-      filename: 'exercise_${DateTime.now().millisecondsSinceEpoch}.jpg',
-    );
-    imageUploadRequest.files.add(multipartFile);
-    
-    // Agregar los parámetros de autenticación de Cloudinary
-    imageUploadRequest.fields['upload_preset'] = 'tu_upload_preset'; // Si usas upload preset
-    // O usar autenticación básica
-    imageUploadRequest.headers.addAll({
-      'Authorization': 'Basic ${base64Encode(utf8.encode('417568263796896:I_ui5iN5-uz9CJQZajZEvToxhfw'))}',
-    });
-    
-    final streamResponse = await imageUploadRequest.send();
-    final resp = await http.Response.fromStream(streamResponse);
-    
-    if (resp.statusCode != 200 && resp.statusCode != 201) {
-      print('Error al subir imagen: ${resp.body}');
+  'https://api.cloudinary.com/v1_1/dtxguigqs/image/upload',
+);
+
+final request = http.MultipartRequest('POST', url);
+
+request.files.add(
+  await http.MultipartFile.fromPath('file', file.path),
+);
+
+request.fields['upload_preset'] = 'appTrainer_upload';
+
+    final response = await request.send();
+    final respStr = await response.stream.bytesToString();
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      print('Error al subir imagen: $respStr');
       state = state.copyWith(isSaving: false);
       return null;
     }
-    
-    final decodedData = json.decode(resp.body);
-    
+
+    final decodedData = json.decode(respStr);
     state = state.copyWith(
       isSaving: false,
       newPictureFile: null,
