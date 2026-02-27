@@ -5,7 +5,7 @@ import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 import 'package:trainer_app/domain/models/model.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
 
-class SchedulingScreen extends ConsumerWidget {
+class ExercisesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exercisesState = ref.watch(exerciseServiceProvider);

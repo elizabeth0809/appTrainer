@@ -22,7 +22,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/scheduling',
-      builder: (context, state) => SchedulingScreen(),
+      builder: (context, state) => ExercisesScreen(),
     ),
     GoRoute(
       path: '/home',

@@ -34,7 +34,7 @@ class CustomBottomNav extends StatelessWidget {
             onTap: () => onTap(1),
           ),
           NavItem(
-            icon: Icons.calendar_month,
+            icon: Icons.fitness_center,
             label: 'Ejercicios',
             isActive: currentIndex == 2,
             onTap: () => onTap(2),

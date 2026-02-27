@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int page = 0;
 
-  final  pages = [HomeContent(),SchedulingCreateScreen(),SchedulingScreen(),PermissionsScreen()];
+  final  pages = [HomeContent(),SchedulingCreateScreen(),ExercisesScreen(),PermissionsScreen()];
   void changePage(int index) => setState(() {
     page = index;
   });

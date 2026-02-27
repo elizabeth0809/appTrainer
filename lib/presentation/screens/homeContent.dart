@@ -56,7 +56,7 @@ class HomeContent extends StatelessWidget {
             const SizedBox(height: 20),
 
             Text(
-              'Mis ejercicios',
+              'Mis Agendamientos',
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 8),
