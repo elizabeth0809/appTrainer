@@ -4,3 +4,4 @@ export 'userRegisterModel.dart';
 export 'userSchudelingModel.dart';
 export 'userMeasurementModel.dart';
 export 'openingScheduleModel.dart';
+export 'objetiveExerciseModel.dart';

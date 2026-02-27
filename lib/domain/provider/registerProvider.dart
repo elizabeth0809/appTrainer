@@ -3,10 +3,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:trainer_app/domain/enum/ui_state.dart';
 import 'package:trainer_app/domain/models/model.dart';
 import 'package:trainer_app/domain/service/repositoryRegisterService.dart';
-import 'package:trainer_app/domain/service/repositoryService.dart';
-
-import '../models/userModel.dart';
-
 final RegisterProvider = StateNotifierProvider<RegisterNotifier, RegisterState>((ref){
   final repositoryRegisterService = ref.read(repositoryRegisterProvider);
   return RegisterNotifier( RegisterState(), repositoryRegisterService);

@@ -48,7 +48,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userScheduling.exercise.name,
+                      userScheduling.objetiveExercise.exercise.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -56,7 +56,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Modalidad: ${userScheduling.exercise.modalities}',
+                      'Modalidad: ${userScheduling.objetiveExercise.exercise.modalities}',
                       style: const TextStyle(fontSize: 13),
                     ),
                     const SizedBox(height: 8),
@@ -69,14 +69,6 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        /*const SizedBox(width: 16),
-                        Text(
-                          'End: ${userScheduling.endTime}',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),*/
                       ],
                     ),
                   ],

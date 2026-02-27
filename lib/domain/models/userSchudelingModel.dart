@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'package:trainer_app/domain/models/model.dart';
+
 import 'exerciseModel.dart';
 import 'userModel.dart';
 import 'openingScheduleModel.dart';
 import 'userMeasurementModel.dart';
 
 class UserSchedule {
-    List<Datum> data;
+     List<Datum> data;
 
     UserSchedule({
         required this.data,
@@ -30,10 +32,8 @@ class UserSchedule {
 class Datum {
     int id;
     String name;
-    int repetitions;
-    String startTime;
-    String endTime;
-    Exercise exercise;
+    DateTime scheduledDate;
+    ObjetiveExercise objetiveExercise;
     UserMeasurement userMeasurement;
     OpeningSchedule openingSchedule;
     User user;
@@ -41,33 +41,27 @@ class Datum {
     Datum({
         required this.id,
         required this.name,
-        required this.repetitions,
-        required this.startTime,
-        required this.endTime,
-        required this.exercise,
+        required this.scheduledDate,
+        required this.objetiveExercise,
         required this.userMeasurement,
         required this.openingSchedule,
         required this.user,
     });
 
     Datum copyWith({
-        int? id,
+         int? id,
         String? name,
-        int? repetitions,
-        String? startTime,
-        String? endTime,
-        Exercise? exercise,
+        DateTime? scheduledDate,
+        ObjetiveExercise? objetiveExercise,
         UserMeasurement? userMeasurement,
         OpeningSchedule? openingSchedule,
         User? user,
     }) => 
-        Datum(
+           Datum(
             id: id ?? this.id,
             name: name ?? this.name,
-            repetitions: repetitions ?? this.repetitions,
-            startTime: startTime ?? this.startTime,
-            endTime: endTime ?? this.endTime,
-            exercise: exercise ?? this.exercise,
+            scheduledDate: scheduledDate ?? this.scheduledDate,
+            objetiveExercise: objetiveExercise ?? this.objetiveExercise,
             userMeasurement: userMeasurement ?? this.userMeasurement,
             openingSchedule: openingSchedule ?? this.openingSchedule,
             user: user ?? this.user,
@@ -78,10 +72,8 @@ class Datum {
    return Datum(
     id: json["id"],
     name: json["name"],
-    repetitions: json["repetitions"],
-    startTime: json["start_time"],
-    endTime: json["end_time"],
-    exercise: Exercise.fromJson(json["exercise"]),
+    scheduledDate: DateTime.parse(json["scheduled_date"]),
+    objetiveExercise: ObjetiveExercise.fromJson(json["objetive_exercise"]),            
     userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
     openingSchedule: OpeningSchedule.fromJson(json["opening_schedule"]),
     user: User(
@@ -98,10 +90,8 @@ class Datum {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "repetitions": repetitions,
-        "start_time": startTime,
-        "end_time": endTime,
-        "exercise": exercise.toJson(),
+        "scheduled_date": "${scheduledDate.year.toString().padLeft(4, '0')}-${scheduledDate.month.toString().padLeft(2, '0')}-${scheduledDate.day.toString().padLeft(2, '0')}",
+        "objetive_exercise": objetiveExercise.toJson(),
         "user_measurement": userMeasurement.toJson(),
         "opening_schedule": openingSchedule.toJson(),
         "user": user.toJson(),

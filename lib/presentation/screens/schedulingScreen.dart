@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 import 'package:trainer_app/domain/models/model.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
 
@@ -8,7 +9,8 @@ class SchedulingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exercisesState = ref.watch(exerciseServiceProvider);
-
+    final schedulingState = ref.watch(userSchedulingProvider);
+    final grouped = schedulingState.groupedByObjective;
     return Scaffold(
       appBar: AppBar(title: Text('Exercises')),
       body: exercisesState.isLoading

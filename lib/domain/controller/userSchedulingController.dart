@@ -33,6 +33,17 @@ class UserSchedulingState {
       accessToken: accessToken ?? this.accessToken,
     );
   }
+   Map<int, List<Datum>> get groupedByObjective {
+    final Map<int, List<Datum>> grouped = {};
+
+    for (final item in userS) {
+      final objectiveId = item.objetiveExercise.id;
+
+      grouped.putIfAbsent(objectiveId, () => []).add(item);
+    }
+
+    return grouped;
+  }
 }
 class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
   final RepositoryService repositoryService;
