@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 
-class ExerciseCard extends ConsumerStatefulWidget {
-  const ExerciseCard({super.key});
+class UserSchedulingCard extends ConsumerStatefulWidget {
+  const UserSchedulingCard({super.key});
 
   @override
-  ConsumerState<ExerciseCard> createState() => _ExerciseCardState();
+  ConsumerState<UserSchedulingCard> createState() => _UserSchedulingCardState();
 }
 
-class _ExerciseCardState extends ConsumerState<ExerciseCard> {
+class _UserSchedulingCardState extends ConsumerState<UserSchedulingCard> {
   @override
   void initState() {
     super.initState();
@@ -56,10 +56,14 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Modalidad: ${userScheduling.exerciseObjetiveExercise}',
+                      'Modalidad: ${userScheduling.exerciseObjetiveExercise.exercise.modalities}',
                       style: const TextStyle(fontSize: 13),
                     ),
                     const SizedBox(height: 8),
+                    Text(
+                      'Objetivo: ${userScheduling.exerciseObjetiveExercise.objetiveExercise.name}',
+                      style: const TextStyle(fontSize: 13),
+                    ),
                     Row(
                       children: [
                         Text(

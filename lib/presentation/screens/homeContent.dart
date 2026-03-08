@@ -72,7 +72,7 @@ class HomeContent extends StatelessWidget {
                 child: const Icon(Icons.add, size: 28),
               ),
             ),*/
-            const ExerciseCard(),
+            const UserSchedulingCard(),
           ],
         ),
       ),

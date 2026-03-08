@@ -8,7 +8,7 @@ class UserSchudelingRepository {
 Future<List<Datum>> getAll(String token) async {
   final List<dynamic> data = await api.getAll(token);
   
-  // Usamos .map((item) => Datum.fromJson(item as Map<String, dynamic>))
+  // Usamos map de forma segura
   return data.map((item) => Datum.fromJson(item as Map<String, dynamic>)).toList();
 }
 Future<void> delete(int id, String token) async {

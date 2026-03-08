@@ -40,14 +40,16 @@ class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
   UserSchedulingNotifier(super.state, this.repositoryService);
 
   Future<void> getAll() async {
-    try {
-      final userSList = await repositoryService.userSRepository.getAll(state.accessToken);
-      state = state.copyWith(userS: userSList); 
-    } catch (e) {
-
-      debugPrint("Error al obtener datos: $e");
-    }
+  try {
+    print("Iniciando carga de scheduling...");
+    final userSList = await repositoryService.userSRepository.getAll(state.accessToken);
+    print("Datos recibidos: ${userSList.length} elementos"); // Si esto no se imprime, el error está antes
+    state = state.copyWith(userS: userSList); 
+  } catch (e, stackTrace) {
+    print("Error exacto: $e");
+    print("Stacktrace: $stackTrace"); // Esto te dirá exactamente la línea del archivo donde ocurre el .map()
   }
+}
   Future<void> deleteScheduling(int id) async {
     try {
       // 1. Llamar al repositorio/API para eliminar en el backend

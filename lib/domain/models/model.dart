@@ -6,3 +6,4 @@ export 'userMeasurementModel.dart';
 export 'openingScheduleModel.dart';
 export 'objetiveExerciseModel.dart';
 export 'exerciseObjetiveExercise.dart';
+export 'userShort.dart';

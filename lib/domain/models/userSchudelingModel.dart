@@ -34,7 +34,7 @@ class Datum {
     ExerciseObjetiveExercise exerciseObjetiveExercise;
     UserMeasurement userMeasurement;
     OpeningSchedule openingSchedule;
-    User user;
+    UserShort user;
 
     Datum({
         required this.id,
@@ -53,7 +53,7 @@ class Datum {
         ExerciseObjetiveExercise? exerciseObjetiveExercise,
         UserMeasurement? userMeasurement,
         OpeningSchedule? openingSchedule,
-        User? user,
+        UserShort? user,
     }) => 
         Datum(
             id: id ?? this.id,
@@ -66,14 +66,14 @@ class Datum {
         );
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        name: json["name"],
-        scheduledDate: DateTime.parse(json["scheduled_date"]),
-        exerciseObjetiveExercise: ExerciseObjetiveExercise.fromJson(json["exercise_objetive_exercise"]),
-        userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
-        openingSchedule: OpeningSchedule.fromJson(json["opening_schedule"]),
-        user: User.fromJson(json["user"]),
-    );
+    id: json["id"],
+    name: json["name"],
+    scheduledDate: DateTime.parse(json["scheduled_date"]),
+    exerciseObjetiveExercise: ExerciseObjetiveExercise.fromJson(json["exercise_objetive_exercise"]),
+    userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
+    openingSchedule: OpeningSchedule.fromJson(json["opening_schedule"]),
+    user: UserShort.fromJson(json["user"]),
+);
 
     Map<String, dynamic> toJson() => {
         "id": id,
@@ -82,6 +82,6 @@ class Datum {
         "exercise_objetive_exercise": exerciseObjetiveExercise.toJson(),
         "user_measurement": userMeasurement.toJson(),
         "opening_schedule": openingSchedule.toJson(),
-        "user": user.toJson(),
+        "user": user.toString(),
     };
 }
