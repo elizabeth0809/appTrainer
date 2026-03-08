@@ -1,14 +1,44 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
-import 'package:trainer_app/domain/provider/exerciseProvider.dart';
-import 'package:trainer_app/domain/provider/secureStorageProvider.dart';
 
-import '../domain/models/exerciseModel.dart';
 
+// global/exercise_api.dart
+class ExerciseApi {
+  final String _baseUrl = '192.168.15.90:8000';
+
+  // Usamos un helper para los headers
+  Map<String, String> _getHeaders(String token) => {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json',
+  };
+
+  Future<dynamic> get(String endpoint, String token) async {
+    final uri = Uri.http(_baseUrl, endpoint);
+    final resp = await http.get(uri, headers: _getHeaders(token));
+    return _processResponse(resp);
+  }
+
+  Future<dynamic> post(String endpoint, Map<String, dynamic> data, String token) async {
+    final uri = Uri.http(_baseUrl, endpoint);
+    final resp = await http.post(uri, headers: _getHeaders(token), body: jsonEncode(data));
+    return _processResponse(resp);
+    
+  }
+
+  Future<dynamic> put(String endpoint, Map<String, dynamic> data, String token) async {
+    final uri = Uri.http(_baseUrl, endpoint);
+    final resp = await http.put(uri, headers: _getHeaders(token), body: jsonEncode(data));
+    return _processResponse(resp);
+  }
+
+  dynamic _processResponse(http.Response resp) {
+    if (resp.statusCode >= 200 && resp.statusCode < 300) {
+      return resp.body.isEmpty ? null : jsonDecode(resp.body);
+    }
+    throw Exception('Error del servidor: ${resp.statusCode}');
+  }
+}
+/*
 class ExerciseServiceNotifier extends StateNotifier<ExercisesState> {
   final Ref ref;
   final String _baseUrl = '192.168.15.90:8000';
@@ -34,7 +64,7 @@ class ExerciseServiceNotifier extends StateNotifier<ExercisesState> {
     );
 
 print('STATUS CODE: ${resp.statusCode}');
-//print('BODY: ${resp.body}');
+print('BODY: ${resp.body}');
     if (resp.statusCode == 200) {
       final List<dynamic> decodedData = json.decode(resp.body);
 
@@ -214,4 +244,4 @@ void clearSelectedExercise() {
 
 final exerciseServiceProvider = StateNotifierProvider<ExerciseServiceNotifier, ExercisesState>((ref) {
   return ExerciseServiceNotifier(ref);
-});
+});*/

@@ -33,17 +33,6 @@ class UserSchedulingState {
       accessToken: accessToken ?? this.accessToken,
     );
   }
-   Map<int, List<Datum>> get groupedByObjective {
-    final Map<int, List<Datum>> grouped = {};
-
-    for (final item in userS) {
-      final objectiveId = item.objetiveExercise.id;
-
-      grouped.putIfAbsent(objectiveId, () => []).add(item);
-    }
-
-    return grouped;
-  }
 }
 class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
   final RepositoryService repositoryService;
@@ -52,14 +41,10 @@ class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
 
   Future<void> getAll() async {
     try {
-      // 1. Llamamos a la API
       final userSList = await repositoryService.userSRepository.getAll(state.accessToken);
-      
-      // 2. IMPORTANTE: Actualizar el estado
-      state = state.copyWith(userS: userSList);
-      
+      state = state.copyWith(userS: userSList); 
     } catch (e) {
-      // Considera manejar el error aquí o guardarlo en el estado
+
       debugPrint("Error al obtener datos: $e");
     }
   }

@@ -48,7 +48,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userScheduling.objetiveExercise.exercise.name,
+                      userScheduling.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -56,7 +56,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Modalidad: ${userScheduling.objetiveExercise.exercise.modalities}',
+                      'Modalidad: ${userScheduling.exerciseObjetiveExercise}',
                       style: const TextStyle(fontSize: 13),
                     ),
                     const SizedBox(height: 8),

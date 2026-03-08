@@ -1,36 +1,61 @@
-import 'package:trainer_app/domain/models/exerciseModel.dart';
+// To parse this JSON data, do
+//
+//     final objetiveExercise = objetiveExerciseFromJson(jsonString);
+
+import 'dart:convert';
+
+ObjetiveExercise objetiveExerciseFromJson(String str) => ObjetiveExercise.fromJson(json.decode(str));
+
+String objetiveExerciseToJson(ObjetiveExercise data) => json.encode(data.toJson());
 
 class ObjetiveExercise {
-    int id;
-    String name;
-    Exercise exercise;
+    List<ObjetiveDatum> data;
 
     ObjetiveExercise({
-        required this.id,
-        required this.name,
-        required this.exercise,
+        required this.data,
     });
 
     ObjetiveExercise copyWith({
-        int? id,
-        String? name,
-        Exercise? exercise,
+        List<ObjetiveDatum>? data,
     }) => 
         ObjetiveExercise(
-            id: id ?? this.id,
-            name: name ?? this.name,
-            exercise: exercise ?? this.exercise,
+            data: data ?? this.data,
         );
 
     factory ObjetiveExercise.fromJson(Map<String, dynamic> json) => ObjetiveExercise(
+        data: List<ObjetiveDatum>.from(json["data"].map((x) => ObjetiveDatum.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    };
+}
+
+class ObjetiveDatum {
+    int id;
+    String name;
+
+    ObjetiveDatum({
+        required this.id,
+        required this.name,
+    });
+
+    ObjetiveDatum copyWith({
+        int? id,
+        String? name,
+    }) => 
+        ObjetiveDatum(
+            id: id ?? this.id,
+            name: name ?? this.name,
+        );
+
+    factory ObjetiveDatum.fromJson(Map<String, dynamic> json) => ObjetiveDatum(
         id: json["id"],
         name: json["name"],
-        exercise: Exercise.fromJson(json["exercise"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "exercise": exercise.toJson(),
     };
 }

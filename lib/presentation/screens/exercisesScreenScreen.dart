@@ -1,62 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainer_app/domain/controller/exerciseController.dart';
 import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/domain/provider/exerciseProvider.dart' hide ExercisesState;
 import 'package:trainer_app/global/exerciseApi.dart';
-
 class ExercisesScreen extends ConsumerWidget {
+  const ExercisesScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final exercisesState = ref.watch(exerciseServiceProvider);
-    final schedulingState = ref.watch(userSchedulingProvider);
-    final grouped = schedulingState.groupedByObjective;
+    // Observamos el estado unificado
+    final state = ref.watch(exerciseProvider);
+    final notifier = ref.read(exerciseProvider.notifier);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Exercises')),
-      body: exercisesState.isLoading
-          ? Center(child: CircularProgressIndicator())
-          : exercisesState.errorMessage != null
-          ? Center(child: Text('Error: ${exercisesState.errorMessage}'))
-          : ListView.builder(
-              itemCount: exercisesState.exercises.length,
-              itemBuilder: (context, index) {
-                final exercise = exercisesState.exercises[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    ref
-                        .read(exerciseServiceProvider.notifier)
-                        .selectExercise(exercise.copyWith());
-                    context.push('/home/exercise');
-                  },
-                  child: Card(
-                    child: ListTile(
-                      title: Text(exercise.name),
-                      subtitle: Text('Price: \$${exercise.price}'),
-                      trailing: Text(exercise.modalities),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-     floatingActionButton: FloatingActionButton(
-  child: const Icon(Icons.add),
-  onPressed: () {
-
-    final newExercise = Exercise(
-      name: '',
-      price: 0,
-      img: '',
-      modalities: '',
+      appBar: AppBar(
+        title: const Text('Mis Ejercicios'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => notifier.loadExercises(),
+          )
+        ],
+      ),
+      body: _buildBody(state, notifier, context, ref),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          // Resetear el formulario con un ejercicio vacío
+          ref.read(exerciseFormProvider.notifier).updateExercise(
+            Exercise(name: '', price: 0, img: '', modalities: '')
+          );
+          context.push('/home/exercise');
+        },
+      ),
     );
+  }
 
-    ref.read(exerciseServiceProvider.notifier)
-        .selectExercise(newExercise);
+  Widget _buildBody(ExercisesState state, ExerciseNotifier notifier, BuildContext context, WidgetRef ref) {
+    if (state.isLoading) return const Center(child: CircularProgressIndicator());
+    
+    if (state.errorMessage != null) {
+      return Center(child: Text('Error: ${state.errorMessage}'));
+    }
 
-   context.push('/home/exercise');
-  },
-),
+    return RefreshIndicator(
+      onRefresh: () => notifier.loadExercises(),
+      child: ListView.builder(
+        itemCount: state.exercises.length,
+        itemBuilder: (context, index) {
+          final exercise = state.exercises[index];
+          return ListTile(
+            leading: CircleAvatar(backgroundImage: NetworkImage(exercise.img)),
+            title: Text(exercise.name),
+            subtitle: Text('\$${exercise.price} - ${exercise.modalities}'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              // Cargamos el ejercicio en el formulario antes de navegar
+              ref.read(exerciseFormProvider.notifier).updateExercise(exercise);
+              context.push('/home/exercise');
+            },
+          );
+        },
+      ),
     );
   }
 }
