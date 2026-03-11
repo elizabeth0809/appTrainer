@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/userSchedulingController.dart';
-import 'package:trainer_app/domain/provider/objetivesExercise.dart';
+import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
 
 import 'package:trainer_app/presentation/widgets/widget.dart';
 // 1. Cambia a ConsumerStatefulWidget
@@ -13,9 +13,7 @@ class SchedulingCreateScreen extends ConsumerStatefulWidget {
   _SchedulingScreenState createState() => _SchedulingScreenState();
 }
 
-class _SchedulingScreenState extends ConsumerState<ConsumerStatefulWidget> {
-  late final objetivosAsync = ref.watch(objetivosListProvider);
-  // Variables locales para controlar los datos antes de enviarlos
+class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> { // Corregido el tipo de State
   final TextEditingController nameController = TextEditingController();
   String? selectedTime;
   DateTime? selectedDate;
@@ -23,6 +21,9 @@ class _SchedulingScreenState extends ConsumerState<ConsumerStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // 1. Escuchamos el nuevo provider
+    final objetivosAsync = ref.watch(objetivosFutureProvider);
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -36,33 +37,42 @@ class _SchedulingScreenState extends ConsumerState<ConsumerStatefulWidget> {
               ),
               const SizedBox(height: 16),
               
-              // Aquí debes capturar el valor del dropdown
+              // 2. Implementación del Dropdown con manejo de estados
               objetivosAsync.when(
-    loading: () => const CircularProgressIndicator(),
-    error: (err, stack) => Text('Error: $err'),
-    data: (listaObjetivos) {
-      return DropdownButtonFormField<int>(
-        value: selectedObjectiveId, // Variable int? de tu estado
-        hint: const Text('Selecciona tu objetivo'),
-        items: listaObjetivos.map((objetivo) {
-          return DropdownMenuItem<int>(
-            value: objetivo.id, // Enviamos el ID al backend
-            child: Text(objetivo.name), // Mostramos el nombre al usuario
-          );
-        }).toList(),
-        onChanged: (id) {
-          setState(() {
-            selectedObjectiveId = id;
-          });
-        },
-        validator: (value) => value == null ? 'Campo requerido' : null,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12),
-        ),
-      );
-    },
-  ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Column(
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red),
+                    Text('No se pudieron cargar los objetivos', style: TextStyle(color: Colors.red)),
+                    TextButton(
+                      onPressed: () => ref.refresh(objetivosFutureProvider), 
+                      child: const Text('Reintentar')
+                    ),
+                  ],
+                ),
+                data: (listaObjetivos) {
+                  return DropdownButtonFormField<int>(
+                    value: selectedObjectiveId,
+                    hint: const Text('Selecciona tu objetivo'),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    ),
+                    items: listaObjetivos.map((objetivo) {
+                      return DropdownMenuItem<int>(
+                        value: objetivo.id,
+                        child: Text(objetivo.name, style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (id) {
+                      setState(() => selectedObjectiveId = id);
+                    },
+                    validator: (value) => value == null ? 'Selecciona un objetivo' : null,
+                  );
+                },
+              ),
+              
               const SizedBox(height: 16),
               DateSelector(
                 availableTimes: ["08:15", "08:30", "09:15"],
@@ -73,32 +83,34 @@ class _SchedulingScreenState extends ConsumerState<ConsumerStatefulWidget> {
               const SizedBox(height: 20),
               
               SizedBox(
-                 width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white, 
-                    ),
-                child: Text( 'Guardar'),
-                onPressed: () async {
-                  if (nameController.text.isEmpty || selectedDate == null) return;
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white, 
+                  ),
+                  onPressed: () async {
+                    if (nameController.text.isEmpty || selectedDate == null || selectedObjectiveId == null) {
+                       ScaffoldMessenger.of(context).showSnackBar(
+                         const SnackBar(content: Text("Por favor completa todos los campos"))
+                       );
+                       return;
+                    }
 
-                  // 2. Construir el objeto JSON exactamente como lo espera el backend
-                  final data = {
-                    "name": nameController.text,
-                    "scheduled_date": "${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2,'0')}-${selectedDate!.day.toString().padLeft(2,'0')}",
-                    "exercise_objetive_exercise_id": selectedObjectiveId,
-                    "user_measurement_id": 1, // Debes obtener este ID dinámicamente
-                    "opening_schedule_id": 1, // Debes mapear el tiempo seleccionado a este ID
-                  };
+                    final data = {
+                      "name": nameController.text,
+                      "scheduled_date": "${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2,'0')}-${selectedDate!.day.toString().padLeft(2,'0')}",
+                      "exercise_objetive_exercise_id": selectedObjectiveId,
+                      "user_measurement_id": 1, 
+                      "opening_schedule_id": 1,
+                    };
 
-                  // 3. Llamar al provider
-                  await ref.read(userSchedulingProvider.notifier).createScheduling(data);
-                  
-                  if (mounted) context.pop();
-                },
-              ),
+                    await ref.read(userSchedulingProvider.notifier).createScheduling(data);
+                    if (mounted) context.pop();
+                  },
+                  child: const Text('Guardar'),
+                ),
               )
             ],
           ),
