@@ -13,16 +13,10 @@ class ButtonBlue extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Fondo azul
-                      foregroundColor: Colors.white, // Texto e íconos blancos
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white, 
                     ),
                     onPressed: () {
-                     /* if (formKey.currentState!.validate()) {
-                        // TODO: lógica de login
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Login válido')),
-                        );
-                      }*/
                       context.push(link);
                     },
 

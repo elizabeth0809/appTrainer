@@ -47,7 +47,7 @@ class ForgetScreen extends StatelessWidget {
                   ),
                 const SizedBox(height: 16),
             // Botón login
-                ButtonBlue(link: '/home', text: 'Recuperar',),
+                ButtonBlue(link: '/home', text: 'Recuperar'),
             ],
           ),
         ),

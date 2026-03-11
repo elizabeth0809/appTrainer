@@ -5,7 +5,7 @@ import 'package:trainer_app/config/router/app_router.dart';
 import 'package:trainer_app/config/theme/app_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:trainer_app/global/http.dart';
+import 'package:trainer_app/global/loginApi.dart';
 void main() async {
   await _setupServices();
 // Inicializa el binding de Flutter antes de cualquier otra cosa

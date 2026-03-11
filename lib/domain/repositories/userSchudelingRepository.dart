@@ -5,6 +5,11 @@ class UserSchudelingRepository {
   final UserSchudelingApi api;
   UserSchudelingRepository(this.api);
 
+Future<Datum> create(Map<String, dynamic> schedulingData, String token) async {
+  final responseData = await api.create(schedulingData, token);
+  // Asumiendo que la API devuelve el objeto creado bajo la llave "data"
+  return Datum.fromJson(responseData['data']);
+}
 Future<List<Datum>> getAll(String token) async {
   final List<dynamic> data = await api.getAll(token);
   

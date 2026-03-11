@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:trainer_app/global/http.dart';
+import 'package:trainer_app/global/loginApi.dart';
 
 import '../models/model.dart';
 

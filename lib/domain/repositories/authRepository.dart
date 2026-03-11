@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/global/http.dart';
+import 'package:trainer_app/global/loginApi.dart';
 
 
 class AuthRepository {

@@ -38,7 +38,15 @@ class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
   final RepositoryService repositoryService;
 
   UserSchedulingNotifier(super.state, this.repositoryService);
-
+Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
+  try {
+    final newDatum = await repositoryService.userSRepository.create(schedulingData, state.accessToken);
+    // Agregamos al estado localmente
+    state = state.copyWith(userS: [...state.userS, newDatum]);
+  } catch (e) {
+    debugPrint("Error al crear agendamiento: $e");
+  }
+}
   Future<void> getAll() async {
   try {
     print("Iniciando carga de scheduling...");

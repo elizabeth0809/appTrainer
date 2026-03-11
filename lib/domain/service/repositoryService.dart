@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/repositories/userSchudelingRepository.dart';
-import 'package:trainer_app/global/http.dart';
+import 'package:trainer_app/global/loginApi.dart';
 import 'package:trainer_app/global/userSchudelingApi.dart';
 
 import '../repositories/authRepository.dart';

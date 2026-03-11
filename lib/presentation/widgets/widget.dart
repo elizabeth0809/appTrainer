@@ -16,6 +16,5 @@ export 'loginButton.dart';
 export 'registerTextFormField.dart';
 export 'registerButton.dart';
 export 'ExerciseTextFormfield.dart';
-export 'exerciseButton.dart';
 export 'exerciseImage.dart';
 export 'shedulingCard.dart';
