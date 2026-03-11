@@ -1,6 +1,5 @@
-import 'dart:convert';
+
 import 'package:trainer_app/domain/models/model.dart';
-import 'userModel.dart';
 import 'openingScheduleModel.dart';
 import 'userMeasurementModel.dart';
 

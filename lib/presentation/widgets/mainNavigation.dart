@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:trainer_app/presentation/widgets/navItem.dart';
 
 class CustomBottomNav extends StatelessWidget {

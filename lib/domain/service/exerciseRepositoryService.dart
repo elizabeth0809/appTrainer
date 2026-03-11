@@ -1,12 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/repositories/authRepository.dart';
 import 'package:trainer_app/global/loginApi.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trainer_app/domain/repositories/authRepository.dart'; // Asegúrate que el path sea correcto
 import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
-import 'package:trainer_app/global/loginApi.dart';
 
 // Definición del Service que agrupa repositorios
 class ExerciseRepositoryService {

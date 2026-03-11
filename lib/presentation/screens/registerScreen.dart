@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/presentation/widgets/backgroundImage.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class RegisterScreen extends StatefulWidget {

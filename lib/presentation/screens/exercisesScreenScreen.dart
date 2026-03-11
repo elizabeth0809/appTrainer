@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/exerciseController.dart';
-import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 import 'package:trainer_app/domain/models/model.dart';
 import 'package:trainer_app/domain/provider/exerciseProvider.dart' hide ExercisesState;
-import 'package:trainer_app/global/exerciseApi.dart';
 class ExercisesScreen extends ConsumerWidget {
   const ExercisesScreen({super.key});
 

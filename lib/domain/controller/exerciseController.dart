@@ -1,16 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import 'package:trainer_app/domain/models/exerciseModel.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/domain/provider/secureStorageProvider.dart';
 import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
-import 'package:trainer_app/domain/service/exerciseRepositoryService.dart';
-import 'package:trainer_app/domain/service/repositoryService.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
 // domain/provider/exercise_provider.dart
 class ExercisesState {

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:trainer_app/domain/models/model.dart';
 
 class HttpService {
   final String _baseUrl = 'http://192.168.15.90:8000';
@@ -36,6 +35,5 @@ class HttpService {
       throw Exception('$err');
     }
   }
-  //excercises
 }
 

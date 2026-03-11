@@ -1,9 +1,7 @@
-import 'package:http/http.dart';
-import 'package:trainer_app/domain/models/exerciseModel.dart';
-import 'package:trainer_app/global/exerciseApi.dart';
 
 import 'package:trainer_app/domain/models/exerciseModel.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
+
 
 class ExerciseRepository {
   final ExerciseApi api;
