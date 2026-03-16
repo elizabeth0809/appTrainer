@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/userSchedulingController.dart';
+import 'package:trainer_app/domain/models/openingScheduleModel.dart';
 import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
+import 'package:trainer_app/domain/provider/openingProvider.dart';
 
 import 'package:trainer_app/presentation/widgets/widget.dart';
 // 1. Cambia a ConsumerStatefulWidget
@@ -23,7 +25,7 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> { // 
   Widget build(BuildContext context) {
     // 1. Escuchamos el nuevo provider
     final objetivosAsync = ref.watch(objetivosFutureProvider);
-
+    final openingAsync = ref.watch(openingFutureProvider);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -74,12 +76,30 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> { // 
               ),
               
               const SizedBox(height: 16),
-              DateSelector(
+             /* DateSelector(
                 availableTimes: ["08:15", "08:30", "09:15"],
                 onDateSelected: (date) => selectedDate = date,
                 onTimeSelected: (time) => selectedTime = time,
-              ),
-              
+              ),*/
+              openingAsync.when(
+              loading: () => const CircularProgressIndicator(),
+              error: (err, stack) => Text("Error al cargar horarios: $err"),
+              data: (allSchedules) {
+                // 2. Filtramos los horarios según el día seleccionado
+                final availableTimes = _filterSchedulesByDate(allSchedules, selectedDate ?? DateTime.now());
+
+                return DateSelector(
+                  // 3. Pasamos los horarios formateados como Strings
+                  availableTimes: availableTimes.map((s) => s.startTime).toList(),
+                  onDateSelected: (date) {
+                    setState(() => selectedDate = date);
+                  },
+                  onTimeSelected: (time) {
+                    setState(() => selectedTime = time);
+                  },
+                );
+              },
+            ),
               const SizedBox(height: 20),
               
               SizedBox(
@@ -118,4 +138,14 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> { // 
       ),
     );
   }
+}
+List<OpeningSchedule> _filterSchedulesByDate(List<OpeningSchedule> all, DateTime date) {
+  // Convertimos el weekday de Dart (1=Lunes, 7=Domingo) al formato de tu API (mon, tue...)
+  final dayMap = {
+    1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 
+    5: 'fri', 6: 'sat', 7: 'sun'
+  };
+  
+  final dayKey = dayMap[date.weekday];
+  return all.where((s) => s.day == dayKey).toList();
 }

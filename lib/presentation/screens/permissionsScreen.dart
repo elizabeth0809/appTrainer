@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainer_app/domain/controller/profileController.dart';
+import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
-class PermissionsScreen extends StatefulWidget {
+class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
   const PermissionsScreen({super.key});
-
   @override
-  State<PermissionsScreen> createState() => _PermissionsScreenState();
-}
-
-class _PermissionsScreenState extends State<PermissionsScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final state = ref.watch(profileControllerProvider);
+    final user = ref.watch(loginProvider).user?.data;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text('Oi, Usuario',    style: TextStyle(
-      color: Theme.of(context).colorScheme.onSurface,
-    ),),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/avatar.png'),
-            ),
-          ),
+        title: Text('Oi, ${user?.name ?? "Usuario"}'),
+        actions: [
+          CircleAvatar(child: Text(user?.name[0] ?? "U")),
+          const SizedBox(width: 16),
         ],
-        iconTheme: IconThemeData( color: Theme.of(context).colorScheme.onSurface,),
       ),
-      body: SingleChildScrollView(
+      body: state.isLoading 
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,8 +33,12 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
               selectionColor:  Theme.of(context).colorScheme.surface,
             ),
             const Divider(height: 24),
-
-            Infocard(),
+            // Mostrar datos del Perfil
+                if (state.profile != null) 
+                  Infocard(),
+            const SizedBox(height: 20),
+            if (state.measurements.isNotEmpty)
+                  MeasurementCard(),
             const SizedBox(height: 20),
             permissionsCard(),
 
@@ -52,7 +48,6 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
                 TextButton(
                   onPressed: () {
                     context.push('/');
-                    // Navigator.pushNamed(context, '/forget');
                   },
                   child: const Text(
                     'Cerrar sesion',

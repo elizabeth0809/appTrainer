@@ -21,6 +21,18 @@ class DateSelector extends StatefulWidget {
 }
 
 class _DateSelectorState extends State<DateSelector> {
+  // Dentro de _DateSelectorState en DateSelector.dart
+
+@override
+void didUpdateWidget(DateSelector oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  // Si los horarios disponibles cambian, reiniciamos la selección si ya no es válida
+  if (selectedTime != null && !widget.availableTimes.contains(selectedTime)) {
+    setState(() {
+      selectedTime = null;
+    });
+  }
+}
   DateTime selectedDate = DateTime.now();
   DateTime focusedMonth = DateTime.now();
   bool showCalendar = false;

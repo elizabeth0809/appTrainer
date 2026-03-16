@@ -13,12 +13,11 @@ final objetivosFutureProvider = FutureProvider<List<ObjetiveDatum>>((ref) async 
 
     print("--- Iniciando petición de objetivos ---");
     final lista = await repo.getAllObjetiveExercise(token);
-    print("--- Objetivos cargados: ${lista.length} elementos ---");
     
     return lista;
   } catch (e, stackTrace) {
     // PRINT DETALLADO PARA DEPURACIÓN
-    print("xxxxxxxxxxxxxxxx ERROR EN OBJETIVOS xxxxxxxxxxxxxxxx");
+    print("xxxxxERROR EN OBJETIVOSxxxxxxx");
     print("Mensaje: $e");
     print("Stacktrace: $stackTrace");
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");

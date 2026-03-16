@@ -8,3 +8,5 @@ export 'objetiveExerciseModel.dart';
 export 'exerciseObjetiveExercise.dart';
 export 'userShort.dart';
 export 'objetiveModel.dart';
+export 'userDataModel.dart';
+export 'profileModel.dart';
