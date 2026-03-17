@@ -46,49 +46,37 @@ class _UpdateMeasurementScreenState extends ConsumerState<UpdateMeasurementScree
     super.dispose();
   }
 
-  Future<void> _updateMeasurement() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+ // En UpdateMeasurementScreen
+Future<void> _updateMeasurement() async {
+  if (_formKey.currentState!.validate()) {
+    setState(() => _isLoading = true);
+    
+    try {
+      // Leemos el notifier
+      await ref.read(profileControllerProvider.notifier).updateMeasurementProfile({
+        'weight': int.parse(_weightController.text),
+        'height': int.parse(_heightController.text),
+        'gender': _selectedGender,
+        'level': _selectedLevel,
+      });
       
-      try {
-        final controller = ref.read(profileControllerProvider.notifier);
-        
-        await controller.updateMeasurement(
-          widget.measurement.id,
-          {
-            'weight': int.parse(_weightController.text),
-            'height': int.parse(_heightController.text),
-            'gender': _selectedGender,
-            'level': _selectedLevel,
-          },
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('¡Medidas actualizadas!'), backgroundColor: Colors.green)
         );
-        
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Medidas actualizadas con éxito'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pop(context, true); // Regresar indicando éxito
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error al actualizar: $e'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
-        }
+        Navigator.pop(context);
       }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red)
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
-
+}
   String _getDisplayGender(String gender) {
     switch (gender) {
       case 'male':
@@ -335,7 +323,7 @@ class _UpdateMeasurementScreenState extends ConsumerState<UpdateMeasurementScree
                     InkWell(
                       onTap: () {
                         setState(() {
-                          _selectedGender = 'Otro';
+                          _selectedGender = 'other';
                         });
                       },
                       child: Padding(
@@ -348,16 +336,16 @@ class _UpdateMeasurementScreenState extends ConsumerState<UpdateMeasurementScree
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: _selectedGender == 'Otro' 
+                                  color: _selectedGender == 'other' 
                                       ? Colors.blue
                                       : Colors.grey,
                                   width: 2,
                                 ),
-                                color: _selectedGender == 'Otro' 
+                                color: _selectedGender == 'other' 
                                     ? Colors.blue
                                     : Colors.transparent,
                               ),
-                              child: _selectedGender == 'Otro'
+                              child: _selectedGender == 'other'
                                   ? const Icon(
                                       Icons.check,
                                       size: 16,

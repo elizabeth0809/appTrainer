@@ -14,14 +14,12 @@ class UserMeasurement {
     int height;
     String gender;
     String level;
-    int userId;
     UserMeasurement({
         required this.id,
         required this.weight,
         required this.height,
         required this.gender,
-        required this.level,
-        required this.userId, 
+        required this.level, 
     });
 
     UserMeasurement copyWith({
@@ -30,7 +28,6 @@ class UserMeasurement {
         int? height,
         String? gender,
         String? level,
-        int? userId,
     }) => 
         UserMeasurement(
             id: id ?? this.id,
@@ -38,7 +35,6 @@ class UserMeasurement {
             height: height ?? this.height,
             gender: gender ?? this.gender,
             level: level ?? this.level,
-            userId: userId ?? this.userId,
         );
 
     factory UserMeasurement.fromJson(Map<String, dynamic> json) => UserMeasurement(
@@ -47,7 +43,6 @@ class UserMeasurement {
         height: json["height"],
         gender: json["gender"],
         level: json["level"],
-        userId: json["user_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -56,6 +51,5 @@ class UserMeasurement {
         "height": height,
         "gender": gender,
         "level": level,
-        "userId": userId,
     };
 }

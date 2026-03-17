@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/controller/profileController.dart';
+import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/presentation/screens/screen.dart';
+
 class MeasurementCard extends ConsumerWidget {
   const MeasurementCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profileControllerProvider);
-    
-    if (state.measurements.isEmpty) return const SizedBox.shrink();
+    final userAuth = ref.watch(loginProvider).user?.data;
 
-    final m = state.measurements.first;
+    final m = state.measurements;
+
+    if (m == null) {
+      return const Center(child: Text('No hay medidas registradas'));
+    }
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -26,13 +31,12 @@ class MeasurementCard extends ConsumerWidget {
               children: [
                 const Text(
                   'Tus Medidas',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => _navigateToUpdateMeasurement(context, ref, m),
+                  onPressed: m == null
+                      ? null
+                      : () => _navigateToUpdateMeasurement(context, ref, m),
                   icon: const Icon(Icons.edit, size: 18),
                   label: const Text('Editar'),
                   style: ElevatedButton.styleFrom(
@@ -46,23 +50,23 @@ class MeasurementCard extends ConsumerWidget {
                 ),
               ],
             ),
-            
+
             const Divider(height: 24),
-            
+
             // Medidas
             _measureRow(Icons.monitor_weight, 'Peso', '${m.weight} kg'),
             const SizedBox(height: 12),
             _measureRow(Icons.height, 'Altura', '${m.height} cm'),
             const SizedBox(height: 12),
             _measureRow(
-              Icons.fitness_center, 
-              'Nivel', 
+              Icons.fitness_center,
+              'Nivel',
               m.level[0].toUpperCase() + m.level.substring(1).toLowerCase(),
             ),
             const SizedBox(height: 12),
             _measureRow(
-              Icons.person, 
-              'Genero', 
+              Icons.person,
+              'Genero',
               m.gender[0].toUpperCase() + m.gender.substring(1).toLowerCase(),
             ),
           ],
@@ -72,19 +76,17 @@ class MeasurementCard extends ConsumerWidget {
   }
 
   void _navigateToUpdateMeasurement(
-    BuildContext context, 
-    WidgetRef ref, 
-    dynamic measurement
+    BuildContext context,
+    WidgetRef ref,
+    dynamic measurement,
   ) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateMeasurementScreen(
-          measurement: measurement,
-        ),
+        builder: (context) => UpdateMeasurementScreen(measurement: measurement),
       ),
     );
-    
+
     if (result == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -112,19 +114,16 @@ class MeasurementCard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title, 
+              title,
               style: const TextStyle(
-                fontWeight: FontWeight.bold, 
-                fontSize: 13, 
-                color: Colors.grey
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                color: Colors.grey,
               ),
             ),
             Text(
-              subtitle, 
-              style: const TextStyle(
-                fontSize: 15, 
-                fontWeight: FontWeight.w500
-              ),
+              subtitle,
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
             ),
           ],
         ),

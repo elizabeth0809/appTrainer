@@ -31,10 +31,6 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: '/editInfoId',
-          builder: (context, state) => const SchedulingCreateScreen(),
-        ),
-        GoRoute(
           path: '/exercise',
           builder: (context, state) => ExerciseFormScreen(),
         ),

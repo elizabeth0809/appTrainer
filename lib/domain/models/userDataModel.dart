@@ -12,71 +12,95 @@ UserData userDataFromJson(String str) => UserData.fromJson(json.decode(str));
 String userDataToJson(UserData data) => json.encode(data.toJson());
 
 class UserData {
-    List<UserDataDatum> data;
+    bool success;
+    ProfileData data;
 
     UserData({
+        required this.success,
         required this.data,
     });
 
     UserData copyWith({
-        List<UserDataDatum>? data,
+        bool? success,
+        ProfileData? data,
     }) => 
         UserData(
+            success: success ?? this.success,
             data: data ?? this.data,
         );
 
     factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        data: List<UserDataDatum>.from(json["data"].map((x) => UserDataDatum.fromJson(x))),
+        success: json["success"],
+        data: ProfileData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "success": success,
+        "data": data.toJson(),
     };
 }
 
-class UserDataDatum {
+class ProfileData {
     int id;
     String name;
     String email;
-    UserMeasurement userMeasurement;
+    String role;
+    DateTime createdAt;
+    DateTime updatedAt;
     Profile profile;
+    UserMeasurement userMeasurement;
 
-    UserDataDatum({
+    ProfileData({
         required this.id,
         required this.name,
         required this.email,
-        required this.userMeasurement,
+        required this.role,
+        required this.createdAt,
+        required this.updatedAt,
         required this.profile,
+        required this.userMeasurement,
     });
 
-    UserDataDatum copyWith({
+    ProfileData copyWith({
         int? id,
         String? name,
         String? email,
-        UserMeasurement? userMeasurement,
+        String? role,
+        DateTime? createdAt,
+        DateTime? updatedAt,
         Profile? profile,
+        UserMeasurement? userMeasurement,
     }) => 
-        UserDataDatum(
+        ProfileData(
             id: id ?? this.id,
             name: name ?? this.name,
             email: email ?? this.email,
-            userMeasurement: userMeasurement ?? this.userMeasurement,
+            role: role ?? this.role,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
             profile: profile ?? this.profile,
+            userMeasurement: userMeasurement ?? this.userMeasurement,
         );
 
-    factory UserDataDatum.fromJson(Map<String, dynamic> json) => UserDataDatum(
+    factory ProfileData.fromJson(Map<String, dynamic> json) => ProfileData(
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
+        role: json["role"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         profile: Profile.fromJson(json["profile"]),
+        userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
-        "user_measurement": userMeasurement.toJson(),
+        "role": role,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
         "profile": profile.toJson(),
+        "user_measurement": userMeasurement.toJson(),
     };
 }
