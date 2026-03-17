@@ -47,6 +47,8 @@ class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
               children: [
                 TextButton(
                   onPressed: () {
+                    ref.read(loginProvider.notifier).logout(); // 👈 AQUÍ SE USA
+                    ref.invalidate(profileControllerProvider);
                     context.push('/');
                   },
                   child: const Text(

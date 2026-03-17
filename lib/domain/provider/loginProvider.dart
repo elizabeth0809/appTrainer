@@ -25,6 +25,9 @@ class LoginState {
 class LoginNotifier extends StateNotifier<LoginState>{
   final RepositoryService repositoryService;
   LoginNotifier(super.state,  this.repositoryService);
+  void logout() {
+    state = LoginState(user: null);
+  }
   Future<void> login(String email, String password) async{
     state = state.copyWith(uiState: UiState.loading);
     try{

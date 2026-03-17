@@ -40,8 +40,7 @@ class MyApp extends ConsumerWidget {
         Locale('es', 'ES'), // Español
         Locale('en', 'US'), // Inglés por si acaso
       ],
-      locale: const Locale('es', 'ES'), // Fuerza el idioma a español
-      // ===================
+      locale: const Locale('es', 'ES'),
     );
   }
 }
