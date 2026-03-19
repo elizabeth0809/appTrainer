@@ -43,7 +43,8 @@ Future<List<dynamic>> getMyScheduliung(String token) async {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
   });
-  
+  /*print("STATUS: ${response.statusCode}");
+  print("BODY: ${response.body}");*/
   if (response.statusCode == 200) {
     final Map<String, dynamic> decodedData = jsonDecode(response.body);
     final List<dynamic> list = decodedData['data'] ?? [];

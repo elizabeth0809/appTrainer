@@ -11,25 +11,29 @@ final userSchedulingProvider = StateNotifierProvider<UserSchedulingNotifier, Use
   final accessToken = ref.watch(loginProvider.select((value) => value.user?.accessToken ?? ''));
 
   return UserSchedulingNotifier(
-    UserSchedulingState(accessToken: accessToken, userS: []),
+    UserSchedulingState(accessToken: accessToken, userS: [], userSMyList: []),
     repository,
   );
 });
 class UserSchedulingState {
   final List<Datum> userS;
+  final List<MySchedulingDatum> userSMyList;
   final String accessToken;
 
   UserSchedulingState({
     required this.userS,
+     required this.userSMyList,
     required this.accessToken,
   });
 
   UserSchedulingState copyWith({
     List<Datum>? userS,
+    List<MySchedulingDatum>? userSMyList,
     String? accessToken,
   }) {
     return UserSchedulingState(
       userS: userS ?? this.userS,
+      userSMyList: userSMyList ?? this.userSMyList,
       accessToken: accessToken ?? this.accessToken,
     );
   }
@@ -55,7 +59,18 @@ Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
     state = state.copyWith(userS: userSList); 
   } catch (e, stackTrace) {
     print("Error exacto: $e");
-    print("Stacktrace: $stackTrace"); // Esto te dirá exactamente la línea del archivo donde ocurre el .map()
+    print("Stacktrace: $stackTrace");
+  }
+}
+Future<void> getMyScheduliung() async {
+  try {
+    print("Iniciando carga de scheduling...");
+    final userSMy = await repositoryService.userSRepository.getMyScheduliung(state.accessToken);
+    //print("RESULTADO API: $userSMy");
+    state = state.copyWith(userSMyList: userSMy); 
+  } catch (e, stackTrace) {
+    print("Error exacto: $e");
+    print("Stacktrace: $stackTrace"); 
   }
 }
   Future<void> deleteScheduling(int id) async {

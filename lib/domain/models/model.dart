@@ -10,3 +10,4 @@ export 'userShort.dart';
 export 'objetiveModel.dart';
 export 'userDataModel.dart';
 export 'profileModel.dart';
+export 'mySchudelingModel.dart';

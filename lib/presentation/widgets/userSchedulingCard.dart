@@ -13,18 +13,19 @@ class _UserSchedulingCardState extends ConsumerState<UserSchedulingCard> {
   @override
   void initState() {
     super.initState();
-    // Ejecutar después del primer frame para evitar conflictos de construcción
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userSchedulingProvider.notifier).getAll();
-    });
-  }
+    // Mejor usar initState con un delay mínimo para evitar colisiones con el build
+    Future.microtask(() {
+      ref.read(userSchedulingProvider.notifier).getMyScheduliung();
+    });}
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(userSchedulingProvider);
-    final userSchedulings = state.userS;
+    final userSchedulings = state.userSMyList;
 if (userSchedulings.isEmpty) {
-      return const Text('Agendamiento aún no registrado');
+     return const Center(
+    child: Text('No hay agendamientos o no cargaron'),
+  );
     }
     /*if (userSchedulings.isEmpty) {
       return const Center(child: CircularProgressIndicator());
