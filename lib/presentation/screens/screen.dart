@@ -4,7 +4,6 @@ export 'homeScreen.dart';
 export 'exercisesScreenScreen.dart';
 export 'permissionsScreen.dart';
 export 'homeContent.dart';
-export 'editInfoScreen.dart';
 export 'schedulingCreateScreen.dart';
 export 'confirmScreen.dart';
 export 'exercisesCreateScreen.dart';

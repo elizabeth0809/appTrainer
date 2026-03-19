@@ -23,10 +23,12 @@ class _UserSchedulingCardState extends ConsumerState<UserSchedulingCard> {
   Widget build(BuildContext context) {
     final state = ref.watch(userSchedulingProvider);
     final userSchedulings = state.userS;
-
-    if (userSchedulings.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+if (userSchedulings.isEmpty) {
+      return const Text('Agendamiento aún no registrado');
     }
+    /*if (userSchedulings.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }*/
 
     return ListView.builder(
       shrinkWrap: true,

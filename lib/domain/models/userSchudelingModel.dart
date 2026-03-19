@@ -31,7 +31,6 @@ class Datum {
     String name;
     DateTime scheduledDate;
     ExerciseObjetiveExercise exerciseObjetiveExercise;
-    UserMeasurement userMeasurement;
     OpeningSchedule openingSchedule;
     UserShort user;
 
@@ -40,7 +39,6 @@ class Datum {
         required this.name,
         required this.scheduledDate,
         required this.exerciseObjetiveExercise,
-        required this.userMeasurement,
         required this.openingSchedule,
         required this.user,
     });
@@ -50,7 +48,6 @@ class Datum {
         String? name,
         DateTime? scheduledDate,
         ExerciseObjetiveExercise? exerciseObjetiveExercise,
-        UserMeasurement? userMeasurement,
         OpeningSchedule? openingSchedule,
         UserShort? user,
     }) => 
@@ -59,7 +56,6 @@ class Datum {
             name: name ?? this.name,
             scheduledDate: scheduledDate ?? this.scheduledDate,
             exerciseObjetiveExercise: exerciseObjetiveExercise ?? this.exerciseObjetiveExercise,
-            userMeasurement: userMeasurement ?? this.userMeasurement,
             openingSchedule: openingSchedule ?? this.openingSchedule,
             user: user ?? this.user,
         );
@@ -69,7 +65,6 @@ class Datum {
     name: json["name"],
     scheduledDate: DateTime.parse(json["scheduled_date"]),
     exerciseObjetiveExercise: ExerciseObjetiveExercise.fromJson(json["exercise_objetive_exercise"]),
-    userMeasurement: UserMeasurement.fromJson(json["user_measurement"]),
     openingSchedule: OpeningSchedule.fromJson(json["opening_schedule"]),
     user: UserShort.fromJson(json["user"]),
 );
@@ -79,7 +74,6 @@ class Datum {
         "name": name,
         "scheduled_date": "${scheduledDate.year.toString().padLeft(4, '0')}-${scheduledDate.month.toString().padLeft(2, '0')}-${scheduledDate.day.toString().padLeft(2, '0')}",
         "exercise_objetive_exercise": exerciseObjetiveExercise.toJson(),
-        "user_measurement": userMeasurement.toJson(),
         "opening_schedule": openingSchedule.toJson(),
         "user": user.toString(),
     };

@@ -12,11 +12,6 @@ final router = GoRouter(
     GoRoute(path: '/register', builder: (context, state) => RegisterScreen()),
     GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     GoRoute(
-      path: '/editInfo ',
-      builder: (context, state) => const EditInfoScreen(),
-    ),
-
-    GoRoute(
       path: '/permissions',
       builder: (context, state) => const PermissionsScreen(),
     ),

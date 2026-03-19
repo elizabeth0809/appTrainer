@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trainer_app/config/theme/app_theme.dart';
+import 'package:trainer_app/domain/models/model.dart';
 
 class DateSelector extends StatefulWidget {
   final Function(DateTime)? onDateSelected;
  
-  final List<String> availableTimes;
-  final Function(String)? onTimeSelected;
+  final List<OpeningSchedule> availableSchedules; 
+  final Function(OpeningSchedule)? onTimeSelected;
 
   const DateSelector({
     super.key,
     this.onDateSelected,
-    
-    required this.availableTimes,
+    required this.availableSchedules,
     this.onTimeSelected,
   });
 
@@ -21,18 +21,16 @@ class DateSelector extends StatefulWidget {
 }
 
 class _DateSelectorState extends State<DateSelector> {
-  // Dentro de _DateSelectorState en DateSelector.dart
+OpeningSchedule? selectedSchedule;
 
 @override
 void didUpdateWidget(DateSelector oldWidget) {
-  super.didUpdateWidget(oldWidget);
-  // Si los horarios disponibles cambian, reiniciamos la selección si ya no es válida
-  if (selectedTime != null && !widget.availableTimes.contains(selectedTime)) {
-    setState(() {
-      selectedTime = null;
-    });
+    super.didUpdateWidget(oldWidget);
+    // Si cambian los horarios (por cambiar de día), limpiamos selección
+    if (selectedSchedule != null && !widget.availableSchedules.contains(selectedSchedule)) {
+      setState(() => selectedSchedule = null);
+    }
   }
-}
   DateTime selectedDate = DateTime.now();
   DateTime focusedMonth = DateTime.now();
   bool showCalendar = false;
@@ -168,29 +166,21 @@ void didUpdateWidget(DateSelector oldWidget) {
                 const Text("Escolha um horário"),
                 const SizedBox(height: 12),
                 Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: widget.availableTimes.map((time) {
-                    final isSelected = selectedTime == time;
+    spacing: 10,
+    runSpacing: 10,
+    children: widget.availableSchedules.map((schedule) {
+      final isSelected = selectedSchedule?.id == schedule.id;
 
-                    return ChoiceChip(
-                      label: Text(time),
-                      selected: isSelected,
-                      selectedColor: colorSeed,
-                      labelStyle: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      onSelected: (_) {
-                        setState(() {
-                          selectedTime = time;
-                        });
-                        widget.onTimeSelected?.call(time);
-                      },
-                    );
-                  }).toList(),
-                ),
+      return ChoiceChip(
+        label: Text(schedule.startTime), // Aquí asumo que tu modelo tiene el campo 'hour'
+        selected: isSelected,
+        onSelected: (_) {
+          setState(() => selectedSchedule = schedule);
+          widget.onTimeSelected?.call(schedule);
+        },
+      );
+    }).toList(),
+  ),
               ],
             ),
           ),

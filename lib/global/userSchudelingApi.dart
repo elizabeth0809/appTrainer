@@ -37,6 +37,21 @@ Future<Map<String, dynamic>> create(Map<String, dynamic> data, String token) asy
     throw Exception('Error ${response.statusCode}');
   }
 }
+Future<List<dynamic>> getMyScheduliung(String token) async {
+  final uri = Uri.parse('$_url/api/my-scheduling');
+  final response = await http.get(uri, headers: {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json',
+  });
+  
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> decodedData = jsonDecode(response.body);
+    final List<dynamic> list = decodedData['data'] ?? [];
+    return list;
+  } else {
+    throw Exception('Error ${response.statusCode}');
+  }
+}
 Future<void> delete(int id, String token) async {
   final uri = Uri.parse('$_url/api/scheduling/$id/');
   final response = await http.delete(
