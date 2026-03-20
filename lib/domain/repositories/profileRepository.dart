@@ -8,10 +8,15 @@ class ProfileRepository {
 Future<UserData> getProfile(String token) async {
   return await api.getProfile(token);
 }
+Future<void> createProfile(Map<String, dynamic> data, String token) async {
+  await api.createProfile(data, token);
+}
 Future<void> updateProfile(Map<String, dynamic> data, String token) async {
   await api.updateProfileData(data, token);
 }
-
+Future<void> createMeasurementProfile(Map<String, dynamic> data, String token) async {
+  await api.createMeasurement(data, token);
+}
 Future<void> updateMeasurementProfile(Map<String, dynamic> data, String token) async {
   await api.updateMeasurementProfile(data, token);
 }

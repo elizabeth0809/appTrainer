@@ -34,10 +34,8 @@ class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
             ),
             const Divider(height: 24),
             // Mostrar datos del Perfil
-                if (state.profile != null) 
             Infocard(),
             const SizedBox(height: 20),
-            //if (state.measurements.isNotEmpty)
             MeasurementCard(),
             const SizedBox(height: 20),
             permissionsCard(),

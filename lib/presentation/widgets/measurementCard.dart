@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/controller/profileController.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/presentation/screens/screen.dart';
 
 class MeasurementCard extends ConsumerWidget {
@@ -10,13 +9,25 @@ class MeasurementCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profileControllerProvider);
-    final userAuth = ref.watch(loginProvider).user?.data;
-
     final m = state.measurements;
-
     if (m == null) {
-      return const Center(child: Text('No hay medidas registradas'));
-    }
+  return Card(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    elevation: 2,
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const Text(
+            'No tienes medidas registradas',
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    ),
+  );
+}
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -74,31 +85,7 @@ class MeasurementCard extends ConsumerWidget {
       ),
     );
   }
-
-  void _navigateToUpdateMeasurement(
-    BuildContext context,
-    WidgetRef ref,
-    dynamic measurement,
-  ) async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => UpdateMeasurementScreen(measurement: measurement),
-      ),
-    );
-
-    if (result == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Medidas actualizadas correctamente'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
-  }
-
-  Widget _measureRow(IconData icon, String title, String subtitle) {
+Widget _measureRow(IconData icon, String title, String subtitle) {
     return Row(
       children: [
         Container(
@@ -130,4 +117,28 @@ class MeasurementCard extends ConsumerWidget {
       ],
     );
   }
+  void _navigateToUpdateMeasurement(
+    BuildContext context,
+    WidgetRef ref,
+    dynamic measurement,
+  ) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateMeasurementScreen(measurement: measurement),
+      ),
+    );
+
+    if (result == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Medidas actualizadas correctamente'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  
 }

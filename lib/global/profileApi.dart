@@ -21,6 +21,21 @@ Future<UserData> getProfile(String token) async {
     throw Exception('Error ${response.statusCode}');
   }
 }
+Future<void> createProfile(Map<String, dynamic> data, String token) async {
+  final response = await http.post(
+    Uri.parse('$_url/profile/'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: jsonEncode(data),
+  );
+
+  if (response.statusCode != 201 && response.statusCode != 200) {
+    throw Exception('Error al crear perfil: ${response.body}');
+  }
+}
  Future<void> updateProfileData(Map<String, dynamic> data, String token) async {
   final response = await http.put(
     Uri.parse('$_url/profile-user'),
@@ -41,6 +56,21 @@ Future<UserData> getProfile(String token) async {
     final decoded = jsonDecode(response.body);
     return decoded is List ? decoded : decoded['data'] ?? [];
   }
+  Future<void> createMeasurement(Map<String, dynamic> data, String token) async {
+  final response = await http.post(
+    Uri.parse('$_url/measurement/'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: jsonEncode(data),
+  );
+
+  if (response.statusCode != 201 && response.statusCode != 200) {
+    throw Exception('Error al crear medidas: ${response.body}');
+  }
+}
   Future<void> updateMeasurementProfile(Map<String, dynamic> data, String token) async {
   final response = await http.put(
     Uri.parse('$_url/measurement-profile'), // Ruta actualizada

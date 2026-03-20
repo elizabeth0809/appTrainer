@@ -9,5 +9,6 @@ export 'confirmScreen.dart';
 export 'exercisesCreateScreen.dart';
 export 'updateMeasurementScreen.dart';
 export 'updateProfileScreen.dart';
+export 'createProfileScreen.dart';
 
 

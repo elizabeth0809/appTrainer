@@ -53,7 +53,20 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: false);
   }
 }
-
+Future<void> createProfile(Map<String, dynamic> data) async {
+  state = state.copyWith(isLoading: true);
+  try {
+    // Usamos el token que el Provider ya le inyectó al Notifier
+    await repo.createProfile(data, token);
+    
+    // Refrescamos los datos (esto actualiza profile y measurements automáticamente)
+    await loadAll(); 
+  } catch (e) {
+    print("Error en createProfile: $e");
+    state = state.copyWith(isLoading: false);
+    rethrow; 
+  }
+}
 Future<void> updateProfile(Map<String, dynamic> data) async {
   state = state.copyWith(isLoading: true);
   try {
@@ -76,6 +89,18 @@ Future<void> updateMeasurementProfile(Map<String, dynamic> data) async {
     await repo.updateMeasurementProfile(data, token);
     
     // 2. Refrescar los datos para que la UI se actualice sola
+    await loadAll(); 
+    
+  } catch (e) {
+    print("Error actualizando: $e");
+    state = state.copyWith(isLoading: false);
+    rethrow;
+  }
+}
+Future<void> createMeasurementProfile(Map<String, dynamic> data) async {
+  state = state.copyWith(isLoading: true);
+  try {
+    await repo.createMeasurementProfile(data, token);
     await loadAll(); 
     
   } catch (e) {

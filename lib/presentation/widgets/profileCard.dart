@@ -12,20 +12,35 @@ class Infocard extends ConsumerWidget {
     // 1. Obtenemos el estado del perfil y los datos básicos del login
     final profileState = ref.watch(profileControllerProvider);
     final userAuth = ref.watch(loginProvider).user?.data;
-    final pstate = profileState.profile;
-    // Si está cargando, mostramos un placeholder o un spinner
-    if (profileState.isLoading) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     final p = profileState.profile;
-
-    return Card(
+     if (p == null) {
+  return Card(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    elevation: 2,
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const Text(
+            'No tienes medidas registradas',
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton.icon(
+            onPressed: () => _navigateToCreateProfile(context, ref),
+            icon: const Icon(Icons.add),
+            label: const Text('Crear Perfil'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+ return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
       child: Padding(
@@ -85,6 +100,7 @@ void _navigateToUpdateProfile(
     );
     
     if (result == true) {
+      ref.invalidate(profileControllerProvider);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Medidas actualizadas correctamente'),
@@ -136,6 +152,26 @@ void _navigateToUpdateProfile(
         ),
         if (trailing != null) trailing,
       ],
+    );
+  }
+}
+void _navigateToCreateProfile(
+    BuildContext context, 
+    WidgetRef ref
+  ) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateProfileScreen( ),
+      ),
+    );
+
+  if (result == true) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Perfil creadas correctamente'),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }
