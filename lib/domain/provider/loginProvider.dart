@@ -28,14 +28,21 @@ class LoginNotifier extends StateNotifier<LoginState>{
   void logout() {
     state = LoginState(user: null);
   }
-  Future<void> login(String email, String password) async{
-    state = state.copyWith(uiState: UiState.loading);
-    try{
-      final user = await repositoryService.authRepository.login(email, password);
-    state = state.copyWith(user:user);
-    } catch(err){
-      debugPrint('$err');
-      rethrow;
-    } finally {state = state.copyWith(uiState: UiState.data);};
+ Future<void> login(String email, String password) async {
+  state = state.copyWith(uiState: UiState.loading);
+
+  try {
+    final user = await repositoryService.authRepository.login(email, password);
+
+    state = state.copyWith(
+      user: user,
+      uiState: UiState.data,
+    );
+
+  } catch (err) {
+    debugPrint('$err');
+    state = state.copyWith(uiState: UiState.error);
+    rethrow;
   }
+}
 }

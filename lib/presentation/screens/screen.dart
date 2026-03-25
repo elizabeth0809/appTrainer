@@ -10,5 +10,8 @@ export 'exercisesCreateScreen.dart';
 export 'updateMeasurementScreen.dart';
 export 'updateProfileScreen.dart';
 export 'createProfileScreen.dart';
+export 'adminHomeScreen.dart';
+export 'SchedulingUsersScreen.dart';
+export 'reportsScreen.dart';
 
 

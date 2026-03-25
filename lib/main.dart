@@ -24,11 +24,12 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final isDarkMode = ref.watch(themeProvider);
+    final goRouter = ref.watch(router);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: '<App Trainer>',
        theme: AppTheme(isDarkmode: isDarkMode).getTheme(),
-      routerConfig: router,
+      routerConfig: goRouter,
       
       // === AGREGA ESTO ===
       localizationsDelegates: const [

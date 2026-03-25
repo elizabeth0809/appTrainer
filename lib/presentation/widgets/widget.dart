@@ -19,3 +19,4 @@ export 'ExerciseTextFormfield.dart';
 export 'exerciseImage.dart';
 export 'shedulingCard.dart';
 export 'measurementCard.dart';
+export 'adminCard.dart';

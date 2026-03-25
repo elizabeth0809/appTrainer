@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/exerciseController.dart';
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/domain/provider/exerciseProvider.dart' hide ExercisesState;
+import 'package:trainer_app/domain/provider/exerciseProvider.dart'
+    hide ExercisesState;
+
 class ExercisesScreen extends ConsumerWidget {
   const ExercisesScreen({super.key});
 
@@ -16,11 +18,17 @@ class ExercisesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mis Ejercicios'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/admin');
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => notifier.loadExercises(),
-          )
+          ),
         ],
       ),
       body: _buildBody(state, notifier, context, ref),
@@ -28,18 +36,26 @@ class ExercisesScreen extends ConsumerWidget {
         child: const Icon(Icons.add),
         onPressed: () {
           // Resetear el formulario con un ejercicio vacío
-          ref.read(exerciseFormProvider.notifier).updateExercise(
-            Exercise(name: '', price: 0, img: '', modalities: '')
-          );
-          context.push('/home/exercise');
+          ref
+              .read(exerciseFormProvider.notifier)
+              .updateExercise(
+                Exercise(name: '', price: 0, img: '', modalities: ''),
+              );
+          context.push('/homeExercise/exercise');
         },
       ),
     );
   }
 
-  Widget _buildBody(ExercisesState state, ExerciseNotifier notifier, BuildContext context, WidgetRef ref) {
-    if (state.isLoading) return const Center(child: CircularProgressIndicator());
-    
+  Widget _buildBody(
+    ExercisesState state,
+    ExerciseNotifier notifier,
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    if (state.isLoading)
+      return const Center(child: CircularProgressIndicator());
+
     if (state.errorMessage != null) {
       return Center(child: Text('Error: ${state.errorMessage}'));
     }
