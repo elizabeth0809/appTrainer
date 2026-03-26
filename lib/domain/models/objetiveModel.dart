@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final objetive = objetiveFromJson(jsonString);
-
 import 'dart:convert';
 
 Objetive objetiveFromJson(String str) => Objetive.fromJson(json.decode(str));

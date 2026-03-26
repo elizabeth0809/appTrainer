@@ -45,8 +45,6 @@ class AdminScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: 24),
-
-            // Acciones admin
             Expanded(
               child: ListView(
                 children: [

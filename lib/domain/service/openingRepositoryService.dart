@@ -4,15 +4,11 @@ import 'package:trainer_app/global/openingApi.dart';
 
 class OpeningRepositoryService {
   final OpeningRepository openingRepository;
-
   OpeningRepositoryService({
     required this.openingRepository
   });
 }
-
-// Provider global para acceder a todos los repositorios
 final openingRepositoryProvider = Provider<OpeningRepositoryService>((ref) {
-  // Instanciamos las dependencias
   final openingApi = OpeningApi();
   final openingRepository = OpeningRepository(openingApi);
 

@@ -16,7 +16,7 @@ Future<UserData> getProfile(String token) async {
   );
 
   if (response.statusCode == 200) {
-    return userDataFromJson(response.body); // 👈 importante
+    return userDataFromJson(response.body);
   } else {
     throw Exception('Error ${response.statusCode}');
   }
@@ -73,7 +73,7 @@ Future<void> createProfile(Map<String, dynamic> data, String token) async {
 }
   Future<void> updateMeasurementProfile(Map<String, dynamic> data, String token) async {
   final response = await http.put(
-    Uri.parse('$_url/measurement-profile'), // Ruta actualizada
+    Uri.parse('$_url/measurement-profile'),
     headers: {
       'Authorization': 'Bearer $token', 
       'Content-Type': 'application/json',

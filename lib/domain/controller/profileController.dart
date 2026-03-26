@@ -35,19 +35,15 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this.repo, this.token, this.userId) : super(ProfileState()) {
     loadAll();
   }
-
   Future<void> loadAll() async {
   state = state.copyWith(isLoading: true);
-
   try {
     final response = await repo.getProfile(token);
-
     state = state.copyWith(
       profile: response.data,
-      measurements: response.data.userMeasurement, // 👈 aquí está la clave
+      measurements: response.data.userMeasurement,
       isLoading: false,
     );
-
   } catch (e) {
     print("Error cargando perfil: $e");
     state = state.copyWith(isLoading: false);
@@ -56,10 +52,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 Future<void> createProfile(Map<String, dynamic> data) async {
   state = state.copyWith(isLoading: true);
   try {
-    // Usamos el token que el Provider ya le inyectó al Notifier
     await repo.createProfile(data, token);
-    
-    // Refrescamos los datos (esto actualiza profile y measurements automáticamente)
     await loadAll(); 
   } catch (e) {
     print("Error en createProfile: $e");
@@ -70,10 +63,7 @@ Future<void> createProfile(Map<String, dynamic> data) async {
 Future<void> updateProfile(Map<String, dynamic> data) async {
   state = state.copyWith(isLoading: true);
   try {
-    // Usamos el token que el Provider ya le inyectó al Notifier
     await repo.updateProfile(data, token);
-    
-    // Refrescamos los datos (esto actualiza profile y measurements automáticamente)
     await loadAll(); 
   } catch (e) {
     print("Error en updateProfile: $e");
@@ -85,10 +75,7 @@ Future<void> updateProfile(Map<String, dynamic> data) async {
 Future<void> updateMeasurementProfile(Map<String, dynamic> data) async {
   state = state.copyWith(isLoading: true);
   try {
-    // 1. Llamada a la API usando el token del constructor
     await repo.updateMeasurementProfile(data, token);
-    
-    // 2. Refrescar los datos para que la UI se actualice sola
     await loadAll(); 
     
   } catch (e) {

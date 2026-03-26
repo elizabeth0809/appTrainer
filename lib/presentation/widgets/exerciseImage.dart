@@ -43,7 +43,7 @@ class ExerciseImage extends StatelessWidget {
         ],
       );
 
-  // Widget para mostrar la imagen
+
   Widget getImage(String? picture) {
     // Si no hay imagen, mostrar placeholder
     if (picture == null || picture.isEmpty) {
@@ -52,8 +52,6 @@ class ExerciseImage extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
-
-    // Si es una URL (http o https)
     if (picture.startsWith('http://') || picture.startsWith('https://')) {
       return FadeInImage(
         image: NetworkImage(picture),
@@ -68,11 +66,8 @@ class ExerciseImage extends StatelessWidget {
         },
       );
     }
-
-    // Si es una ruta local, verificar que el archivo existe
     try {
       final file = File(picture);
-      // Verificar si el archivo existe de manera asíncrona
       return FutureBuilder<bool>(
         future: file.exists(),
         builder: (context, snapshot) {

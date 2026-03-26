@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart'; // Para formatear fechas
+import 'package:intl/intl.dart';
 import 'package:trainer_app/domain/controller/profileController.dart';
-import 'package:trainer_app/domain/models/model.dart';
+
 
 class CreateProfileScreen extends ConsumerStatefulWidget {
   
@@ -34,7 +34,6 @@ class _CreateProfileScreenState extends ConsumerState<CreateProfileScreen> {
     _phoneController = TextEditingController();
     _weightController = TextEditingController();
     _heightController = TextEditingController();
-    // Inicializar fecha
     _selectedDate;
     _birthdateController = TextEditingController(text: _selectedDate != null ? DateFormat('yyyy-MM-dd').format(_selectedDate!) : ''
     );
@@ -48,8 +47,6 @@ class _CreateProfileScreenState extends ConsumerState<CreateProfileScreen> {
     _heightController.dispose();
     super.dispose();
   }
-
-  // Función para abrir el selector de fecha
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -86,7 +83,7 @@ class _CreateProfileScreenState extends ConsumerState<CreateProfileScreen> {
       });
 
       if (mounted) {
-        Navigator.pop(context, true); // 👈 IMPORTANTE
+        Navigator.pop(context, true);
       }
     } catch (e) {
       if (mounted) {
@@ -156,8 +153,6 @@ class _CreateProfileScreenState extends ConsumerState<CreateProfileScreen> {
               ),
               
               const SizedBox(height: 16),
-              
-              // Campo de Fecha de Nacimiento (Solo lectura, abre el picker)
               TextFormField(
                 controller: _birthdateController,
                 readOnly: true, 

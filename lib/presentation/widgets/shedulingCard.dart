@@ -26,7 +26,6 @@ OpeningSchedule? selectedSchedule;
 @override
 void didUpdateWidget(DateSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Si cambian los horarios (por cambiar de día), limpiamos selección
     if (selectedSchedule != null && !widget.availableSchedules.contains(selectedSchedule)) {
       setState(() => selectedSchedule = null);
     }
@@ -48,8 +47,6 @@ void didUpdateWidget(DateSelector oldWidget) {
 
     return Column(
       children: [
-
-        /// ================= TOP DATE BAR =================
         Row(
           children: [
             Expanded(
@@ -115,8 +112,6 @@ void didUpdateWidget(DateSelector oldWidget) {
             ),
 
             const SizedBox(width: 12),
-
-            /// VER CALENDARIO BUTTON
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -153,10 +148,7 @@ void didUpdateWidget(DateSelector oldWidget) {
         ),
 
         const SizedBox(height: 15),
-
-        /// ================= CALENDAR =================
         if (showCalendar) _buildCalendar(),
-        /// ================= HORARIOS =================
         Card(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -172,7 +164,7 @@ void didUpdateWidget(DateSelector oldWidget) {
       final isSelected = selectedSchedule?.id == schedule.id;
 
       return ChoiceChip(
-        label: Text(schedule.startTime), // Aquí asumo que tu modelo tiene el campo 'hour'
+        label: Text(schedule.startTime),
         selected: isSelected,
         onSelected: (_) {
           setState(() => selectedSchedule = schedule);
@@ -188,8 +180,6 @@ void didUpdateWidget(DateSelector oldWidget) {
       ],
     );
   }
-
-  /// ================= CALENDAR WIDGET =================
   Widget _buildCalendar() {
     final days = _buildCalendarDays(focusedMonth);
 
@@ -202,8 +192,6 @@ void didUpdateWidget(DateSelector oldWidget) {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
-            /// HEADER
             Row(
               mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
@@ -240,8 +228,6 @@ void didUpdateWidget(DateSelector oldWidget) {
             ),
 
             const SizedBox(height: 10),
-
-            /// WEEK DAYS
             Row(
               mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
@@ -257,8 +243,6 @@ void didUpdateWidget(DateSelector oldWidget) {
             ),
 
             const SizedBox(height: 10),
-
-            /// GRID
             GridView.builder(
               shrinkWrap: true,
               physics:
@@ -320,7 +304,7 @@ void didUpdateWidget(DateSelector oldWidget) {
     final firstDay =
         DateTime(month.year, month.month, 1);
     final firstWeekday =
-        firstDay.weekday % 7; // Domingo=0
+        firstDay.weekday % 7;
     final startDate =
         firstDay.subtract(Duration(days: firstWeekday));
 

@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final myScheduling = mySchedulingFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:trainer_app/domain/models/exerciseObjetiveExercise.dart';
 import 'package:trainer_app/domain/models/openingScheduleModel.dart';
 

@@ -13,10 +13,7 @@ class ObjetiveExerciseRepositoryService {
     required this.objetiveExerciseRepository
   });
 }
-
-// Provider global para acceder a todos los repositorios
 final objetiveExerciserepositoryProvider = Provider<ObjetiveExerciseRepositoryService>((ref) {
-  // Instanciamos las dependencias
   final httpService = HttpService(); 
   final objetiveExerciseApi = ObjetiveExerciseApi();
 

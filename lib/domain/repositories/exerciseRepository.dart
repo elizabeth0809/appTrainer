@@ -9,10 +9,7 @@ class ExerciseRepository {
   ExerciseRepository(this.api);
 
   Future<List<Exercise>> getAll() async {
-    // Llamamos al endpoint definido en tu API
     final dynamic data = await api.get('/api/exercise/');
-
-    // Manejamos si la API devuelve la lista directamente o dentro de un objeto 'data'
     final List<dynamic> list = (data is Map && data.containsKey('data')) 
         ? data['data'] 
         : data as List<dynamic>;
@@ -26,9 +23,7 @@ class ExerciseRepository {
   }
 
   Future<Exercise> update(Exercise exercise, String token) async {
-    // Aseguramos que el ID existe antes de la petición
-    if (exercise.id == null) throw Exception('ID de ejercicio es necesario para actualizar');
-    
+    if (exercise.id == null) throw Exception('ID de ejercicio es necesario para actualizar');   
     final data = await api.put('/api/exercise/${exercise.id}/', exercise.toJson(), token);
     return Exercise.fromJson(data);
   }

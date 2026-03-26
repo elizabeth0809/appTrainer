@@ -78,10 +78,9 @@ class _DateTimeSelectorState extends State<DateTimeSelector> {
     final time = await showTimePicker(
       context: context,
       initialTime: selectedTime,
-      // No fuerces el locale aquí si ya lo configuraste en el main.dart
     );
 
-    if (!mounted) return; // <--- AGREGAR ESTO
+    if (!mounted) return;
 
     if (time != null) {
       setState(() {
@@ -101,9 +100,5 @@ class _DateTimeSelectorState extends State<DateTimeSelector> {
       selectedTime.minute,
     );
     widget.onChanged(dateTime);
-  }
-
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 }

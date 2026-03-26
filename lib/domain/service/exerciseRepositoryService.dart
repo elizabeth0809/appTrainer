@@ -3,8 +3,6 @@ import 'package:trainer_app/domain/repositories/authRepository.dart';
 import 'package:trainer_app/global/loginApi.dart';
 import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
-
-// Definición del Service que agrupa repositorios
 class ExerciseRepositoryService {
   final AuthRepository authRepository;
   final ExerciseRepository exerciseRepository;
@@ -14,10 +12,7 @@ class ExerciseRepositoryService {
     required this.exerciseRepository
   });
 }
-
-// Provider global para acceder a todos los repositorios
 final repositoryProvider = Provider<ExerciseRepositoryService>((ref) {
-  // Instanciamos las dependencias
   final httpService = HttpService(); 
   final exerciseApi = ExerciseApi();
 

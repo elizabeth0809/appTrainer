@@ -60,7 +60,6 @@ Future<void> handleLogin() async {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                // Título
                 Text(
                   'Bienvenido',
                   style: Theme.of(context).textTheme.titleLarge,
@@ -91,7 +90,6 @@ Future<void> handleLogin() async {
                     TextButton(
                       onPressed: () {
                         context.push('/forget');
-                        // Navigator.pushNamed(context, '/forget');
                       },
                       child: const Text(
                         '¿Olvidaste tu contraseña?',
@@ -112,7 +110,6 @@ Future<void> handleLogin() async {
                  onPressed: handleLogin
                   ),
                 const SizedBox(height: 16),
-                // Texto registro
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

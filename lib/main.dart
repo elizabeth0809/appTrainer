@@ -30,16 +30,13 @@ class MyApp extends ConsumerWidget {
       title: '<App Trainer>',
        theme: AppTheme(isDarkmode: isDarkMode).getTheme(),
       routerConfig: goRouter,
-      
-      // === AGREGA ESTO ===
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate, // Muy importante para el error que ves
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('es', 'ES'), // Español
-        Locale('en', 'US'), // Inglés por si acaso
       ],
       locale: const Locale('es', 'ES'),
     );

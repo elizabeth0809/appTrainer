@@ -1,7 +1,6 @@
 
 import 'package:trainer_app/domain/models/model.dart';
 import 'openingScheduleModel.dart';
-import 'userMeasurementModel.dart';
 
 class UserSchedule {
      List<Datum> data;

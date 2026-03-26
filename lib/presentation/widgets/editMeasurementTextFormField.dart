@@ -1,4 +1,3 @@
-// Widget para mostrar un measurement con opción de editar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/models/model.dart';

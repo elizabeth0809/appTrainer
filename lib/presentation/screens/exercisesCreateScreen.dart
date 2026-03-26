@@ -11,10 +11,9 @@ class ExerciseFormScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Escuchamos el estado del formulario y del servicio unificado
     final formState = ref.watch(exerciseFormProvider);
     final formNotifier = ref.read(exerciseFormProvider.notifier);
-    final exerciseState = ref.watch(exerciseProvider); // Usamos el unificado
+    final exerciseState = ref.watch(exerciseProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Configurar Ejercicio')),
@@ -69,8 +68,6 @@ class ExerciseFormScreen extends ConsumerWidget {
             ? null 
             : () async {
                 if (!formNotifier.isValidForm()) return;
-                
-                // El notifier unificado ahora hace todo: subir imagen y guardar
                 final success = await ref.read(exerciseProvider.notifier)
                     .saveOrCreateExercise(formState.exercise);
                 
@@ -82,8 +79,6 @@ class ExerciseFormScreen extends ConsumerWidget {
     );
   }
 }
-
-// Widget auxiliar para la cabecera de imagen
 class _ImageHeader extends ConsumerWidget {
   final ExerciseFormState formState;
   final ExerciseFormNotifier formNotifier;
@@ -106,8 +101,6 @@ class _ImageHeader extends ConsumerWidget {
                 final picker = ImagePicker();
                 final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
                 if (pickedFile == null) return;
-
-                // Notificamos al provider de la nueva ruta local
                 ref.read(exerciseProvider.notifier).onFileChanged(pickedFile.path);
                 formNotifier.updateImg(pickedFile.path);
               },

@@ -5,22 +5,14 @@ import 'package:trainer_app/domain/service/objetiveExerciseRepositoryService.dar
 
 final objetivosFutureProvider = FutureProvider<List<ObjetiveDatum>>((ref) async {
   try {
-    // 1. Obtenemos el token del loginProvider
     final token = ref.watch(loginProvider.select((value) => value.user?.accessToken ?? ''));
-    
-    // 2. Accedemos al repositorio mediante su provider
     final repo = ref.watch(objetiveExerciserepositoryProvider).objetiveExerciseRepository;
-
-    print("--- Iniciando petición de objetivos ---");
-    final lista = await repo.getAllObjetiveExercise(token);
-    
+    final lista = await repo.getAllObjetiveExercise(token); 
     return lista;
   } catch (e, stackTrace) {
-    // PRINT DETALLADO PARA DEPURACIÓN
     print("xxxxxERROR EN OBJETIVOSxxxxxxx");
     print("Mensaje: $e");
     print("Stacktrace: $stackTrace");
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     rethrow;
   }
 });

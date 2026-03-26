@@ -1,11 +1,5 @@
-// To parse this JSON data, do
-//
-//     final openingSchedule = openingScheduleFromJson(jsonString);
-
 import 'dart:convert';
-
 List<OpeningSchedule> openingScheduleFromJson(String str) => List<OpeningSchedule>.from(json.decode(str).map((x) => OpeningSchedule.fromJson(x)));
-
 String openingScheduleToJson(List<OpeningSchedule> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class OpeningSchedule {
@@ -43,7 +37,6 @@ class OpeningSchedule {
     name: json["name"],
     day: json["day"],
     startTime: json["start_time"],
-    // CAMBIO: Quita el guion bajo para que coincida con el backend ("endtime")
     endtime: json["endtime"], 
 );
 

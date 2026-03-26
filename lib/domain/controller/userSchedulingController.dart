@@ -7,9 +7,7 @@ import 'package:trainer_app/domain/service/repositoryService.dart';
 
 final userSchedulingProvider = StateNotifierProvider<UserSchedulingNotifier, UserSchedulingState>((ref) {
   final repository = ref.watch(repositoryProvider);
-  // Usamos watch para que el provider reaccione a cambios de login
   final accessToken = ref.watch(loginProvider.select((value) => value.user?.accessToken ?? ''));
-
   return UserSchedulingNotifier(
     UserSchedulingState(accessToken: accessToken, userS: [], userSMyList: []),
     repository,
@@ -45,7 +43,6 @@ class UserSchedulingNotifier extends StateNotifier<UserSchedulingState> {
 Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
   try {
     final newDatum = await repositoryService.userSRepository.create(schedulingData, state.accessToken);
-    // Agregamos al estado localmente
     state = state.copyWith(userS: [...state.userS, newDatum]);
   } catch (e) {
     debugPrint("Error al crear agendamiento: $e");
@@ -55,7 +52,6 @@ Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
   try {
     print("Iniciando carga de scheduling...");
     final userSList = await repositoryService.userSRepository.getAll(state.accessToken);
-    print("Datos recibidos: ${userSList.length} elementos"); // Si esto no se imprime, el error está antes
     state = state.copyWith(userS: userSList); 
   } catch (e, stackTrace) {
     print("Error exacto: $e");
@@ -75,11 +71,7 @@ Future<void> getMyScheduliung() async {
 }
   Future<void> deleteScheduling(int id) async {
     try {
-      // 1. Llamar al repositorio/API para eliminar en el backend
-      // Debes asegurarte de tener este método en tu UserSchudelingRepository
       await repositoryService.userSRepository.delete(id, state.accessToken);
-
-      // 2. Actualizar el estado local filtrando el elemento eliminado
       state = state.copyWith(
         userS: state.userS.where((element) => element.id != id).toList(),
       );

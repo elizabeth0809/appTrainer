@@ -7,7 +7,6 @@ class UserSchudelingRepository {
 
 Future<Datum> create(Map<String, dynamic> schedulingData, String token) async {
   final responseData = await api.create(schedulingData, token);
-  // Asumiendo que la API devuelve el objeto creado bajo la llave "data"
   return Datum.fromJson(responseData['data']);
 }
 Future<List<Datum>> getAll(String token) async {

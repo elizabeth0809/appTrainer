@@ -13,12 +13,10 @@ class OpeningApi {
   
   if (response.statusCode == 200) {
     final dynamic decodedData = jsonDecode(response.body);
-    
-    // Verificamos si es una lista o un mapa con llave 'data'
     if (decodedData is List) {
-      return decodedData; // Es la lista directa [...]
+      return decodedData;
     } else if (decodedData is Map && decodedData.containsKey('data')) {
-      return decodedData['data']; // Es un objeto { "data": [...] }
+      return decodedData['data'];
     }
     
     return [];

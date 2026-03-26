@@ -13,7 +13,6 @@ class _UserSchedulingCardState extends ConsumerState<UserSchedulingCard> {
   @override
   void initState() {
     super.initState();
-    // Mejor usar initState con un delay mínimo para evitar colisiones con el build
     Future.microtask(() {
       ref.read(userSchedulingProvider.notifier).getMyScheduliung();
     });}
@@ -90,7 +89,6 @@ if (userSchedulings.isEmpty) {
                   IconButton(
   icon: const Icon(Icons.delete, color: Colors.red),
   onPressed: () {
-    // Mostrar un diálogo de confirmación es una buena práctica
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

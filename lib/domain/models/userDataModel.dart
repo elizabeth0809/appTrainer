@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final userData = userDataFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:trainer_app/domain/models/profileModel.dart';
 import 'package:trainer_app/domain/models/userMeasurementModel.dart';
 

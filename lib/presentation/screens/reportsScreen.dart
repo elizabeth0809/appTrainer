@@ -24,7 +24,6 @@ class ReportsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // 📊 RESUMEN
             Row(
               children: [
                 Expanded(
@@ -60,8 +59,6 @@ class ReportsScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-
-            // 📈 GRÁFICO (placeholder)
             Container(
               height: 200,
               width: double.infinity,
@@ -75,8 +72,6 @@ class ReportsScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-
-            // 🏆 TOP EJERCICIOS
             Align(
               alignment: Alignment.centerLeft,
               child: Text(

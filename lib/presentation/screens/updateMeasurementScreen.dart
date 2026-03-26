@@ -26,13 +26,9 @@ class _UpdateMeasurementScreenState extends ConsumerState<UpdateMeasurementScree
   late String _selectedLevel;
   
   bool _isLoading = false;
-  
-  // Opciones para los dropdowns
-  final List<String> _levelOptions = ['beginner', 'intermediate', 'advanced'];
   @override
   void initState() {
     super.initState();
-    // Inicializar controladores con los valores actuales
     _weightController = TextEditingController(text: widget.measurement.weight.toString());
     _heightController = TextEditingController(text: widget.measurement.height.toString());
     _selectedGender = widget.measurement.gender;
@@ -46,13 +42,11 @@ class _UpdateMeasurementScreenState extends ConsumerState<UpdateMeasurementScree
     super.dispose();
   }
 
- // En UpdateMeasurementScreen
 Future<void> _updateMeasurement() async {
   if (_formKey.currentState!.validate()) {
     setState(() => _isLoading = true);
     
     try {
-      // Leemos el notifier
       await ref.read(profileControllerProvider.notifier).updateMeasurementProfile({
         'weight': int.parse(_weightController.text),
         'height': int.parse(_heightController.text),
@@ -77,19 +71,6 @@ Future<void> _updateMeasurement() async {
     }
   }
 }
-  String _getDisplayGender(String gender) {
-    switch (gender) {
-      case 'male':
-        return 'Masculino';
-      case 'female':
-        return 'Femenino';
-      case 'other':
-        return 'Otro';
-      default:
-        return gender;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,8 +88,6 @@ Future<void> _updateMeasurement() async {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              
-              // Tarjeta de información
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(

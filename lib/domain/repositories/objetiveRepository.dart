@@ -8,8 +8,6 @@ class ObjetiveExerciseRepository {
 
   Future<List<ObjetiveDatum>> getAllObjetiveExercise(String token) async {
   final List<dynamic> ObjetiveExercisedata = await apiObjetiveExercise.getAllObjetiveExercise(token);
-  
-  // Usamos map de forma segura
   return ObjetiveExercisedata.map((item) => ObjetiveDatum.fromJson(item as Map<String, dynamic>)).toList();
 }
 }

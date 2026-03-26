@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trainer_app/domain/enum/ui_state.dart';
-import 'package:trainer_app/domain/models/model.dart';
 import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/domain/provider/userProvider.dart';
-import 'package:trainer_app/presentation/screens/screen.dart';
 
 class LoginButton extends ConsumerWidget {
   const LoginButton({
@@ -28,8 +26,8 @@ class LoginButton extends ConsumerWidget {
       child: ElevatedButton(
         key: key,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue, // Fondo azul
-          foregroundColor: Colors.white, // Texto e íconos blancos
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white, 
         ),
         onPressed: isLoading
     ? null

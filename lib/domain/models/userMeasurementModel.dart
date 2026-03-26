@@ -1,11 +1,5 @@
-// To parse this JSON data, do
-//
-//     final userMeasurement = userMeasurementFromJson(jsonString);
-
 import 'dart:convert';
-
 List<UserMeasurement> userMeasurementFromJson(String str) => List<UserMeasurement>.from(json.decode(str).map((x) => UserMeasurement.fromJson(x)));
-
 String userMeasurementToJson(List<UserMeasurement> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserMeasurement {

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:trainer_app/domain/controller/profileController.dart';
 import 'package:trainer_app/domain/controller/userSchedulingController.dart';
 import 'package:trainer_app/domain/models/openingScheduleModel.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
 import 'package:trainer_app/domain/provider/openingProvider.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
@@ -18,7 +15,6 @@ class SchedulingCreateScreen extends ConsumerStatefulWidget {
 }
 
 class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
-  // Corregido el tipo de State
   final TextEditingController nameController = TextEditingController();
   OpeningSchedule? selectedSchedule;
   DateTime? selectedDate;
@@ -28,7 +24,6 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
   Widget build(BuildContext context) {
     final objetivosAsync = ref.watch(objetivosFutureProvider);
     final openingAsync = ref.watch(openingFutureProvider);
-    final profileState = ref.watch(profileControllerProvider);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -138,7 +133,7 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
                       "scheduled_date": formattedDate,
                       "exercise_objetive_exercise_id": selectedObjectiveId,
                       "opening_schedule_id":
-                          selectedSchedule!.id, // ID del horario seleccionado
+                          selectedSchedule!.id,
                     };
 
                     await ref
@@ -148,7 +143,6 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Agendamiento creado con éxito"), backgroundColor: Colors.green),
                         );
-                   //     context.pop();
                   }
                   }catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(

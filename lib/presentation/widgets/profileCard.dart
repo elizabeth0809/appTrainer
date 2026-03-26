@@ -9,7 +9,6 @@ class Infocard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 1. Obtenemos el estado del perfil y los datos básicos del login
     final profileState = ref.watch(profileControllerProvider);
     final userAuth = ref.watch(loginProvider).user?.data;
     final p = profileState.profile;
@@ -47,7 +46,6 @@ class Infocard extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Email (Viene del login/auth)
             _infoRow(
               icon: Icons.email_outlined,
               title: 'Email',
@@ -65,16 +63,12 @@ class Infocard extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 12),
-
-            // Fecha de Nacimiento / Miembro desde
             _infoRow(
               icon: Icons.cake_outlined,
               title: 'Fecha de Nacimiento',
               subtitle: p?.profile.birthdate.toString() ?? 'No disponible',
             ),
             const SizedBox(height: 12),
-
-            // Rol o Membresía (Viene del login/auth)
             _infoRow(
               icon: Icons.workspace_premium_outlined,
               title: 'Rol de usuario',

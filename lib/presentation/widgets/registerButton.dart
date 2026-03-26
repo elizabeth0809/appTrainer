@@ -27,8 +27,8 @@ class RegisterButton extends ConsumerWidget {
           child: ElevatedButton(
             key: key,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue, // Fondo azul
-              foregroundColor: Colors.white, // Texto e íconos blancos
+              backgroundColor: Colors.blue, 
+              foregroundColor: Colors.white, 
             ),
             onPressed: isLoading ? null:() async {
               ref

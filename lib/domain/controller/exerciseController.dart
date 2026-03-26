@@ -7,7 +7,6 @@ import 'package:trainer_app/domain/models/exerciseModel.dart';
 import 'package:trainer_app/domain/provider/secureStorageProvider.dart';
 import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
 import 'package:trainer_app/global/exerciseApi.dart';
-// domain/provider/exercise_provider.dart
 class ExercisesState {
   final List<Exercise> exercises;
   final bool isLoading;
@@ -71,7 +70,7 @@ class ExerciseNotifier extends StateNotifier<ExercisesState> {
     try {
       final token = await _getToken();
       
-      // 1. Si hay una imagen nueva, subirla primero a Cloudinary
+      // Si hay una imagen nueva, subirla primero a Cloudinary
       String? imageUrl = exercise.img;
       if (state.newPictureFile != null) {
         imageUrl = await _uploadToCloudinary(state.newPictureFile!);
@@ -114,8 +113,6 @@ class ExerciseNotifier extends StateNotifier<ExercisesState> {
     state = state.copyWith(newPictureFile: File(path));
   }
 }
-
-// El Provider final
 final exerciseProvider = StateNotifierProvider<ExerciseNotifier, ExercisesState>((ref) {
   final repo = ExerciseRepository(ExerciseApi());
   return ExerciseNotifier(repo, ref);

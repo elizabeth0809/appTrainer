@@ -5,7 +5,7 @@ import 'package:trainer_app/domain/controller/profileController.dart';
 import 'package:trainer_app/domain/provider/loginProvider.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
-class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
+class PermissionsScreen extends ConsumerWidget {
   const PermissionsScreen({super.key});
   @override
   Widget build(BuildContext context, ref) {
@@ -33,7 +33,6 @@ class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
               selectionColor:  Theme.of(context).colorScheme.surface,
             ),
             const Divider(height: 24),
-            // Mostrar datos del Perfil
             Infocard(),
             const SizedBox(height: 20),
             MeasurementCard(),
@@ -45,7 +44,7 @@ class PermissionsScreen extends ConsumerWidget { // Cambiado a ConsumerWidget
               children: [
                 TextButton(
                   onPressed: () {
-                    ref.read(loginProvider.notifier).logout(); // 👈 AQUÍ SE USA
+                    ref.read(loginProvider.notifier).logout();
                     ref.invalidate(profileControllerProvider);
                     context.push('/');
                   },

@@ -11,7 +11,6 @@ class ExercisesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Observamos el estado unificado
     final state = ref.watch(exerciseProvider);
     final notifier = ref.read(exerciseProvider.notifier);
 
@@ -72,7 +71,6 @@ class ExercisesScreen extends ConsumerWidget {
             subtitle: Text('\$${exercise.price} - ${exercise.modalities}'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              // Cargamos el ejercicio en el formulario antes de navegar
               ref.read(exerciseFormProvider.notifier).updateExercise(exercise);
               context.push('/home/exercise');
             },
@@ -82,20 +80,3 @@ class ExercisesScreen extends ConsumerWidget {
     );
   }
 }
-
-/*  Widget _nextButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: TextButton.icon(
-          onPressed: () {
-            context.go('/home/editInfoId');
-          },
-          icon: const Text('Editar'),
-          label: const Icon(Icons.arrow_forward),
-        ),
-      ),
-    );
-  }
-}*/
