@@ -33,17 +33,17 @@ class CustomBottomNav extends StatelessWidget {
             onTap: () => onTap(1),
           ),
           NavItem(
-            icon: Icons.fitness_center,
-            label: 'Ejercicios',
+             icon: Icons.settings,
+            label: 'Perfil',
             isActive: currentIndex == 2,
             onTap: () => onTap(2),
           ),
-          NavItem(
+          /*NavItem(
             icon: Icons.settings,
             label: 'Perfil',
             isActive: currentIndex == 3,
             onTap: () => onTap(3),
-          ),
+          ),*/
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/profileController.dart';
 import 'package:trainer_app/domain/provider/loginProvider.dart';
+import 'package:trainer_app/domain/provider/userProvider.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class PermissionsScreen extends ConsumerWidget {
@@ -20,49 +21,49 @@ class PermissionsScreen extends ConsumerWidget {
           const SizedBox(width: 16),
         ],
       ),
-      body: state.isLoading 
-        ? const Center(child: CircularProgressIndicator())
-        : SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-           Text(
-              'Informacion personal',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              selectionColor:  Theme.of(context).colorScheme.surface,
-            ),
-            const Divider(height: 24),
-            Infocard(),
-            const SizedBox(height: 20),
-            MeasurementCard(),
-            const SizedBox(height: 20),
-            permissionsCard(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    ref.read(loginProvider.notifier).logout();
-                    ref.invalidate(profileControllerProvider);
-                    context.push('/');
-                  },
-                  child: const Text(
-                    'Cerrar sesion',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                      fontSize: 15,
-                    ),
+      body: state.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Informacion personal',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    selectionColor: Theme.of(context).colorScheme.surface,
                   ),
-                ),
-                Image.asset('assets/off.png', width: 20)
-              ],
+                  const Divider(height: 24),
+                  Infocard(),
+                  const SizedBox(height: 20),
+                  MeasurementCard(),
+                  const SizedBox(height: 20),
+                  permissionsCard(),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          ref.read(loginProvider.notifier).logout();
+                          ref.read(userProvider.notifier).state = null;
+                          ref.invalidate(profileControllerProvider);
+                        },
+                        child: const Text(
+                          'Cerrar sesion',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      Image.asset('assets/off.png', width: 20),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }

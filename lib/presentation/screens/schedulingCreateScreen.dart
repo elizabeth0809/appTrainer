@@ -54,6 +54,7 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
                 data: (listaObjetivos) {
                   return DropdownButtonFormField<int>(
                     value: selectedObjectiveId,
+                    isExpanded: true,
                     hint: const Text('Selecciona tu objetivo'),
                     icon: const Icon(Icons.keyboard_arrow_down),
                     decoration: const InputDecoration(

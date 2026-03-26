@@ -37,8 +37,6 @@ void didUpdateWidget(DateSelector oldWidget) {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
-
     List<DateTime> dates = [
       selectedDate.subtract(const Duration(days: 1)),
       selectedDate,
@@ -94,8 +92,10 @@ void didUpdateWidget(DateSelector oldWidget) {
                               const SizedBox(height: 4),
                               Text(
                                 _getLabel(date),
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14,
+                                  fontWeight: FontWeight.bold,
                                   color: isSelected
                                       ? Colors.white70
                                       : Colors.grey,
