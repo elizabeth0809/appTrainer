@@ -24,4 +24,51 @@ class OpeningApi {
     throw Exception('Error ${response.statusCode}');
   }
 }
+Future<void> createOpening(String token, Map<String, dynamic> body) async {
+  final uri = Uri.parse('$_url/api/opening');
+
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(body),
+  );
+
+  if (response.statusCode != 201 && response.statusCode != 200) {
+    throw Exception('Error al crear: ${response.statusCode}');
+  }
+}
+Future<void> updateOpening(String token, int id, Map<String, dynamic> body) async {
+  final uri = Uri.parse('$_url/api/opening/$id');
+
+  final response = await http.put(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(body),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Error al actualizar: ${response.statusCode}');
+  }
+}
+Future<void> deleteOpening(String token, int id) async {
+  final uri = Uri.parse('$_url/api/opening/$id');
+
+  final response = await http.delete(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode != 200 && response.statusCode != 204) {
+    throw Exception('Error al eliminar: ${response.statusCode}');
+  }
+}
 }

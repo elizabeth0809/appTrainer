@@ -19,6 +19,12 @@ class AdminScreen extends ConsumerWidget {
         title: const Text('Panel de Administrador'),
         backgroundColor: Colors.blue,
         actions: [
+           IconButton(
+            onPressed: () {
+              context.go('/adminPermission');      
+            },
+            icon: const Icon(Icons.settings),
+          ),
           IconButton(
             onPressed: () {
               // logout

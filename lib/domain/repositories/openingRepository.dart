@@ -18,4 +18,15 @@ class OpeningRepository {
     rethrow;
   }
 }
+Future<void> createOpening(String token, Map<String, dynamic> body) async {
+  await apiOpeningApi.createOpening(token, body);
+}
+
+Future<void> updateOpening(String token, int id, Map<String, dynamic> body) async {
+  await apiOpeningApi.updateOpening(token, id, body);
+}
+
+Future<void> deleteOpening(String token, int id) async {
+  await apiOpeningApi.deleteOpening(token, id);
+}
 }

@@ -42,6 +42,8 @@ routes: [
     GoRoute(path: '/dataUsers',builder: (context, state) => AdminUsersScreen()),
     GoRoute(path: '/dataObjetive',builder: (context, state) => AdminObjetiveScreen()),
     GoRoute(path: '/dataOpening',builder: (context, state) => AdminOpeningScreen()),
+    GoRoute(path: '/adminPermission',builder: (context, state) => AdminPermissionsScreen()),
+    
     GoRoute(
       path: '/scheduling',
       builder: (context, state) => ExercisesScreen(),

@@ -11,11 +11,12 @@ export 'updateMeasurementScreen.dart';
 export 'updateProfileScreen.dart';
 export 'createProfileScreen.dart';
 export 'adminHomeScreen.dart';
-export 'SchedulingUsersScreen.dart';
-export 'reportsScreen.dart';
+export 'adminSchedulingUsersScreen.dart';
+export 'adminreportsScreen.dart';
 export 'adminUsersScreen.dart';
 export 'adminObjetiveScreen.dart';
 export 'adminOpeningScreen.dart';
+export 'adminPermissionsScreen.dart';
 
 
 
