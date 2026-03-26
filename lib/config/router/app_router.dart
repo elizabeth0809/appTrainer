@@ -38,7 +38,10 @@ routes: [
     GoRoute(path: '/home', builder: (_, __) => HomeScreen()),
     GoRoute(path: '/permissions',builder: (context, state) => const PermissionsScreen(), ),
     GoRoute(path: '/usersScheduling',builder: (context, state) => SchedulingUsersScreen(), ),
-    GoRoute(path: '/reports',builder: (context, state) => ReportsScreen(), ),
+    GoRoute(path: '/reports',builder: (context, state) => ReportsScreen()),
+    GoRoute(path: '/dataUsers',builder: (context, state) => AdminUsersScreen()),
+    GoRoute(path: '/dataObjetive',builder: (context, state) => AdminObjetiveScreen()),
+    GoRoute(path: '/dataOpening',builder: (context, state) => AdminOpeningScreen()),
     GoRoute(
       path: '/scheduling',
       builder: (context, state) => ExercisesScreen(),

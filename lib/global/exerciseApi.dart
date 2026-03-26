@@ -12,9 +12,9 @@ class ExerciseApi {
     'Content-Type': 'application/json',
   };
 
-  Future<dynamic> get(String endpoint, String token) async {
+  Future<dynamic> get(String endpoint) async {
     final uri = Uri.http(_baseUrl, endpoint);
-    final resp = await http.get(uri, headers: _getHeaders(token));
+    final resp = await http.get(uri);
     return _processResponse(resp);
   }
 

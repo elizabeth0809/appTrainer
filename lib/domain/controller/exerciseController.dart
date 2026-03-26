@@ -58,8 +58,8 @@ class ExerciseNotifier extends StateNotifier<ExercisesState> {
   Future<void> loadExercises() async {
     state = state.copyWith(isLoading: true);
     try {
-      final token = await _getToken();
-      final list = await repository.getAll(token);
+      //final token = await _getToken();
+      final list = await repository.getAll();
       state = state.copyWith(exercises: list, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());

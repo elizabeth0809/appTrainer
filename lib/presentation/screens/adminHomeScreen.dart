@@ -57,7 +57,27 @@ class AdminScreen extends ConsumerWidget {
                       context.go('/usersScheduling');
                     },
                   ),
-
+                AdminCard(
+                    title: 'Datos de Usuarios',
+                    icon: Icons.data_usage_rounded,
+                    onTap: () {
+                      context.go('/dataUsers');
+                    },
+                  ),
+                  AdminCard(
+                    title: 'Gestionar objetivos',
+                    icon: Icons.emoji_objects,
+                    onTap: () {
+                      context.go('/dataObjetive');
+                    },
+                  ),
+                 AdminCard(
+                    title: 'Crear Horarios',
+                    icon: Icons.house_rounded,
+                    onTap: () {
+                    context.go('/dataOpening');
+                    },
+                  ),
                   AdminCard(
                     title: 'Crear ejercicios',
                     icon: Icons.fitness_center,

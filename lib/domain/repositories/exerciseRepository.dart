@@ -8,9 +8,9 @@ class ExerciseRepository {
 
   ExerciseRepository(this.api);
 
-  Future<List<Exercise>> getAll(String token) async {
+  Future<List<Exercise>> getAll() async {
     // Llamamos al endpoint definido en tu API
-    final dynamic data = await api.get('/api/exercise/', token);
+    final dynamic data = await api.get('/api/exercise/');
 
     // Manejamos si la API devuelve la lista directamente o dentro de un objeto 'data'
     final List<dynamic> list = (data is Map && data.containsKey('data')) 

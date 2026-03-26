@@ -13,5 +13,9 @@ export 'createProfileScreen.dart';
 export 'adminHomeScreen.dart';
 export 'SchedulingUsersScreen.dart';
 export 'reportsScreen.dart';
+export 'adminUsersScreen.dart';
+export 'adminObjetiveScreen.dart';
+export 'adminOpeningScreen.dart';
+
 
 
