@@ -96,38 +96,51 @@ class AdminOpeningScreen extends ConsumerWidget {
                     ],
                   ),
 
-                  // 🗑 DELETE
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: const Text('Eliminar'),
-                          content: const Text('¿Seguro?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cancelar'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                ref
-                                    .read(openingControllerProvider.notifier)
-                                    .delete(item.id);
+                  trailing: Row(
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    // ✏️ EDITAR
+    IconButton(
+      icon: const Icon(Icons.edit, color: Colors.green),
+      onPressed: () {
+        showEditOpeningForm(context, ref, item);
+      },
+    ),
 
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Eliminar',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+    // 🗑 DELETE
+    IconButton(
+      icon: const Icon(Icons.delete, color: Colors.red),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Eliminar'),
+            content: const Text('¿Seguro?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  ref
+                      .read(openingControllerProvider.notifier)
+                      .delete(item.id);
+
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Eliminar',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  ],
+),
                 ),
               );
             },
@@ -137,11 +150,23 @@ class AdminOpeningScreen extends ConsumerWidget {
     );
   }
 }
-void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
-  final nameController = TextEditingController();
-  String selectedDay = 'mon';
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
+void showEditOpeningForm(
+  BuildContext context,
+  WidgetRef ref,
+  dynamic item,
+) {
+  final nameController = TextEditingController(text: item.name);
+  String selectedDay = item.day;
+
+  TimeOfDay startTime = TimeOfDay(
+    hour: int.parse(item.startTime.split(':')[0]),
+    minute: int.parse(item.startTime.split(':')[1]),
+  );
+
+  TimeOfDay endTime = TimeOfDay(
+    hour: int.parse(item.endtime.split(':')[0]),
+    minute: int.parse(item.endtime.split(':')[1]),
+  );
 
   showModalBottomSheet(
     context: context,
@@ -160,7 +185,7 @@ void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Crear horario',
+                  'Editar horario',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
 
@@ -200,7 +225,134 @@ void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
 
                 const SizedBox(height: 12),
 
-                // ⏰ START TIME
+                // ⏰ START
+                ListTile(
+                  title: Text(
+                    'Inicio: ${startTime.format(context)}',
+                  ),
+                  trailing: const Icon(Icons.access_time),
+                  onTap: () async {
+                    final picked = await showTimePicker(
+                      context: context,
+                      initialTime: startTime,
+                    );
+                    if (picked != null) {
+                      setState(() => startTime = picked);
+                    }
+                  },
+                ),
+
+                // ⏰ END
+                ListTile(
+                  title: Text(
+                    'Fin: ${endTime.format(context)}',
+                  ),
+                  trailing: const Icon(Icons.access_time),
+                  onTap: () async {
+                    final picked = await showTimePicker(
+                      context: context,
+                      initialTime: endTime,
+                    );
+                    if (picked != null) {
+                      setState(() => endTime = picked);
+                    }
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                // 💾 UPDATE
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (nameController.text.isEmpty) return;
+
+                      String formatTime(TimeOfDay t) {
+                        return '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+                      }
+
+                      ref.read(openingControllerProvider.notifier).update(
+                        item.id,
+                        {
+                          "name": nameController.text,
+                          "day": selectedDay,
+                          "start_time": formatTime(startTime),
+                          "endtime": formatTime(endTime),
+                        },
+                      );
+
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Actualizar'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
+  final nameController = TextEditingController();
+  String selectedDay = 'mon';
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (_) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Padding(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Crear horario',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 16),
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nombre',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: selectedDay,
+                  items: const [
+                    DropdownMenuItem(value: 'mon', child: Text('Lunes')),
+                    DropdownMenuItem(value: 'tue', child: Text('Martes')),
+                    DropdownMenuItem(value: 'wed', child: Text('Miércoles')),
+                    DropdownMenuItem(value: 'thu', child: Text('Jueves')),
+                    DropdownMenuItem(value: 'fri', child: Text('Viernes')),
+                    DropdownMenuItem(value: 'sat', child: Text('Sábado')),
+                    DropdownMenuItem(value: 'sun', child: Text('Domingo')),
+                  ],
+                  onChanged: (value) {
+                    setState(() => selectedDay = value!);
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Día',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
                 ListTile(
                   title: Text(
                     startTime == null
@@ -218,8 +370,6 @@ void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
                     }
                   },
                 ),
-
-                // ⏰ END TIME
                 ListTile(
                   title: Text(
                     endTime == null
@@ -239,8 +389,6 @@ void showCreateOpeningForm(BuildContext context, WidgetRef ref) {
                 ),
 
                 const SizedBox(height: 16),
-
-                // 💾 SAVE
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

@@ -5,7 +5,22 @@ import 'package:trainer_app/domain/models/model.dart';
 class ProfileApi {
   final String _url = 'http://192.168.15.90:8000/api';
 
+Future<List<dynamic>> getAllUsers(String token) async {
+  final response = await http.get(
+    Uri.parse('$_url/profile/'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    },
+  );
 
+  if (response.statusCode == 200) {
+    final decoded = jsonDecode(response.body);
+    return decoded is List ? decoded : decoded['data'] ?? [];
+  } else {
+    throw Exception('Error ${response.statusCode}');
+  }
+}
 Future<UserData> getProfile(String token) async {
   final response = await http.get(
     Uri.parse('$_url/profile-me'),

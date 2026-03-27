@@ -5,6 +5,9 @@ import 'package:trainer_app/global/profileApi.dart';
 class ProfileRepository {
   final ProfileApi api;
   ProfileRepository(this.api);
+  Future<List<dynamic>> getAllUsers(String token) async {
+  return await api.getAllUsers(token);
+}
 Future<UserData> getProfile(String token) async {
   return await api.getProfile(token);
 }

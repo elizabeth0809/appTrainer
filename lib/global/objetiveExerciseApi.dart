@@ -19,4 +19,51 @@ class ObjetiveExerciseApi {
     throw Exception('Error ${response.statusCode}');
   }
 }
+Future<void> createObjetive(String token, Map<String, dynamic> body) async {
+  final uri = Uri.parse('$_url/api/objetive');
+
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(body),
+  );
+
+  if (response.statusCode != 201 && response.statusCode != 200) {
+    throw Exception('Error al crear');
+  }
+}
+Future<void> updateObjetive(String token, int id, Map<String, dynamic> body) async {
+  final uri = Uri.parse('$_url/api/objetive/$id');
+
+  final response = await http.put(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(body),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Error al actualizar');
+  }
+}
+Future<void> deleteObjetive(String token, int id) async {
+  final uri = Uri.parse('$_url/api/objetive/$id');
+
+  final response = await http.delete(
+    uri,
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode != 200 && response.statusCode != 204) {
+    throw Exception('Error al eliminar');
+  }
+}
 }

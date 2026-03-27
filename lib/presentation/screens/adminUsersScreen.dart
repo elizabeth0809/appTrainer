@@ -1,119 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trainer_app/domain/provider/profileProvider.dart';
 
-class AdminUsersScreen extends StatelessWidget {
+class AdminUsersScreen extends ConsumerWidget {
   const AdminUsersScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // 🔥 DATA MOCK (tu JSON)
-    final List<Map<String, dynamic>> users = [
-      {
-        "name": "eliza",
-        "email": "mon4@correo.com",
-        "role": "customer",
-        "profile": {
-          "phone": "1150245521",
-          "birthdate": "2026-02-26",
-        },
-        "user_measurement": {
-          "weight": 200,
-          "height": 50,
-          "gender": "female",
-          "level": "advanced",
-        }
-      },
-      {
-        "name": "Admin",
-        "email": "admin@example.com",
-        "role": "admin",
-        "profile": null,
-        "user_measurement": null
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usersAsync = ref.watch(usersFutureProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Usuarios'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.go('/admin');
-          },
+          onPressed: () => context.go('/admin'),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => ref.refresh(usersFutureProvider),
+          )
+        ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final user = users[index];
+      body: usersAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
 
-          final profile = user['profile'];
-          final measurement = user['user_measurement'];
+        error: (err, _) => Center(child: Text('Error: $err')),
 
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 👤 Nombre + Rol
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        data: (users) {
+          if (users.isEmpty) {
+            return const Center(child: Text('No hay usuarios'));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+              final profile = user['profile'];
+              final measurement = user['user_measurement'];
+
+              return Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(12),
+
+                  title: Text(
+                    user['name'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        user['name'],
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Chip(
-                        label: Text(user['role']),
-                        backgroundColor: user['role'] == 'admin'
-                            ? Colors.red.shade100
-                            : Colors.blue.shade100,
-                      ),
+                      const SizedBox(height: 6),
+
+                      Text("📧 ${user['email']}"),
+                      Text("🔑 Rol: ${user['role']}"),
+
+                      if (profile != null) ...[
+                        const SizedBox(height: 6),
+                        Text("📱 Tel: ${profile['phone']}"),
+                        Text("🎂 Nacimiento: ${profile['birthdate']}"),
+                      ],
+
+                      if (measurement != null) ...[
+                        const SizedBox(height: 6),
+                        Text("⚖ Peso: ${measurement['weight']}"),
+                        Text("📏 Altura: ${measurement['height']}"),
+                        Text("🏋 Nivel: ${measurement['level']}"),
+                      ],
                     ],
                   ),
-
-                  const SizedBox(height: 6),
-
-                  // 📧 Email
-                  Text("📧 ${user['email']}"),
-
-                  const Divider(),
-
-                  // 📱 Profile
-                  Text(
-                    "📱 Teléfono: ${profile?['phone'] ?? 'No disponible'}",
-                  ),
-                  Text(
-                    "🎂 Nacimiento: ${profile?['birthdate'] ?? 'No disponible'}",
-                  ),
-
-                  const Divider(),
-
-                  // ⚖️ Measurement
-                  Text(
-                    "⚖️ Peso: ${measurement?['weight'] ?? '-'}",
-                  ),
-                  Text(
-                    "📏 Altura: ${measurement?['height'] ?? '-'}",
-                  ),
-                  Text(
-                    "🚻 Género: ${measurement?['gender'] ?? '-'}",
-                  ),
-                  Text(
-                    "📊 Nivel: ${measurement?['level'] ?? '-'}",
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           );
         },
       ),

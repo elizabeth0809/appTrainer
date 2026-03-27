@@ -6,7 +6,7 @@ export 'permissionsScreen.dart';
 export 'homeContent.dart';
 export 'schedulingCreateScreen.dart';
 export 'confirmScreen.dart';
-export 'exercisesCreateScreen.dart';
+export 'createExercisesScreen.dart';
 export 'updateMeasurementScreen.dart';
 export 'updateProfileScreen.dart';
 export 'createProfileScreen.dart';
