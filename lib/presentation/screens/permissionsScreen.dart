@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/controller/profileController.dart';
 import 'package:trainer_app/domain/provider/loginProvider.dart';
+import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
 import 'package:trainer_app/domain/provider/userProvider.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
@@ -26,7 +27,7 @@ class PermissionsScreen extends ConsumerWidget {
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     'Informacion personal',
@@ -34,9 +35,9 @@ class PermissionsScreen extends ConsumerWidget {
                     selectionColor: Theme.of(context).colorScheme.surface,
                   ),
                   const Divider(height: 24),
-                  Infocard(),
+                  Center(child: Infocard()),
                   const SizedBox(height: 20),
-                  MeasurementCard(),
+                  Center(child: MeasurementCard()),
                   const SizedBox(height: 20),
                   permissionsCard(),
 
@@ -47,7 +48,15 @@ class PermissionsScreen extends ConsumerWidget {
                         onPressed: () {
                           ref.read(loginProvider.notifier).logout();
                           ref.read(userProvider.notifier).state = null;
+
+                          // 🔥 2. invalidar providers que usan token
                           ref.invalidate(profileControllerProvider);
+                          ref.invalidate(
+                            objetivosFutureProvider,
+                          ); // 👈 importante en tu caso
+
+                          // 🔥 3. navegar inmediatamente
+                          context.go('/');
                         },
                         child: const Text(
                           'Cerrar sesion',

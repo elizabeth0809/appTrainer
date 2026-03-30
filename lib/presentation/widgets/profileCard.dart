@@ -21,7 +21,7 @@ class Infocard extends ConsumerWidget {
       child: Column(
         children: [
           const Text(
-            'No tienes medidas registradas',
+            'No tienes datos registrados',
             style: TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 12),

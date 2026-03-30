@@ -53,7 +53,10 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
                 ),
                 data: (listaObjetivos) {
                   return DropdownButtonFormField<int>(
-                    value: selectedObjectiveId,
+                    value:
+                        listaObjetivos.any((o) => o.id == selectedObjectiveId)
+                        ? selectedObjectiveId
+                        : null,
                     isExpanded: true,
                     hint: const Text('Selecciona tu objetivo'),
                     icon: const Icon(Icons.keyboard_arrow_down),
@@ -118,39 +121,42 @@ class _SchedulingScreenState extends ConsumerState<SchedulingCreateScreen> {
                         selectedSchedule == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text(
-                            "Completa todos los campos",
-                          ),
+                          content: Text("Completa todos los campos"),
                         ),
                       );
                       return;
                     }
-                    try{
-                    final formattedDate = DateFormat(
-                      'yyyy-MM-dd',
-                    ).format(selectedDate!);
-                    final data = {
-                      "name": nameController.text,
-                      "scheduled_date": formattedDate,
-                      "exercise_objetive_exercise_id": selectedObjectiveId,
-                      "opening_schedule_id":
-                          selectedSchedule!.id,
-                    };
+                    try {
+                      final formattedDate = DateFormat(
+                        'yyyy-MM-dd',
+                      ).format(selectedDate!);
+                      final data = {
+                        "name": nameController.text,
+                        "scheduled_date": formattedDate,
+                        "exercise_objetive_exercise_id": selectedObjectiveId,
+                        "opening_schedule_id": selectedSchedule!.id,
+                      };
 
-                    await ref
-                        .read(userSchedulingProvider.notifier)
-                        .createScheduling(data);
-                   if (mounted) {
+                      await ref
+                          .read(userSchedulingProvider.notifier)
+                          .createScheduling(data);
+                      if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Agendamiento creado con éxito"), backgroundColor: Colors.green),
+                          const SnackBar(
+                            content: Text("Agendamiento creado con éxito"),
+                            backgroundColor: Colors.green,
+                          ),
                         );
-                  }
-                  }catch (e) {
+                      }
+                    } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Error al guardar: $e"), backgroundColor: Colors.red),
+                        SnackBar(
+                          content: Text("Error al guardar: $e"),
+                          backgroundColor: Colors.red,
+                        ),
                       );
-                  }
-              },
+                    }
+                  },
                   child: const Text('Guardar'),
                 ),
               ),

@@ -14,6 +14,7 @@ class ObjetiveExerciseApi {
   if (response.statusCode == 200) {
     final Map<String, dynamic> decodedData = jsonDecode(response.body);
     final List<dynamic> list = decodedData['data'] ?? [];
+    //print(list);
     return list;
   } else {
     throw Exception('Error ${response.statusCode}');

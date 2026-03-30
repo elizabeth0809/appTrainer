@@ -12,28 +12,30 @@ final router = Provider<GoRouter>((ref) {
     initialLocation: '/',
     refreshListenable: ValueNotifier(userState),
     redirect: (context, state) {
-    final user = ref.read(userProvider);
-    final isLoggingIn = state.matchedLocation == '/';
+  final user = ref.read(userProvider);
 
-    if (user == null) {
-        return isLoggingIn ? null : '/';
-      }
-    if (isLoggingIn) {
-        return user.data.role == 'admin' ? '/admin' : '/home';
-      }
-   if (state.matchedLocation == '/admin' && user.data.role != 'admin') {
-        return '/home';
-      }
+  final isAuthRoute = state.matchedLocation == '/' ||
+      state.matchedLocation == '/register' ||
+      state.matchedLocation == '/forget';
 
-    return null;
-  },
+  if (user == null) {
+    return isAuthRoute ? null : '/';
+  }
+  if (isAuthRoute) {
+    return user.data.role == 'admin' ? '/admin' : '/home';
+  }
+
+  if (state.matchedLocation == '/admin' &&
+      user.data.role != 'admin') {
+    return '/home';
+  }
+
+  return null;
+},
 routes: [
     GoRoute(path: '/', builder: (_, __) => LoginScreen()),
     GoRoute(path: '/register', builder: (_, __) => RegisterScreen()),
-
     GoRoute(path: '/forget', builder: (context, state) => const ForgetScreen()),
-
-    GoRoute(path: '/register', builder: (context, state) => RegisterScreen()),
     GoRoute(path: '/admin', builder: (_, __) => AdminScreen()),
     GoRoute(path: '/home', builder: (_, __) => HomeScreen()),
     GoRoute(path: '/permissions',builder: (context, state) => const PermissionsScreen(), ),

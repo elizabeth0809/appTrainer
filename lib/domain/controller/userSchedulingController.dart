@@ -50,7 +50,7 @@ Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
 }
   Future<void> getAll() async {
   try {
-    print("Iniciando carga de scheduling...");
+    //print("Iniciando carga de scheduling...");
     final userSList = await repositoryService.userSRepository.getAll(state.accessToken);
     state = state.copyWith(userS: userSList); 
   } catch (e, stackTrace) {

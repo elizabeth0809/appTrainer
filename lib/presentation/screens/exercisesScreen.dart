@@ -72,7 +72,7 @@ class ExercisesScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               ref.read(exerciseFormProvider.notifier).updateExercise(exercise);
-              context.push('/home/exercise');
+              context.push('/homeExercise/exercise');
             },
           );
         },
