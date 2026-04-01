@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/legacy.dart';
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
-import 'package:trainer_app/domain/repositories/profileRepository.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+import 'package:trainer_app/domain/repositories/repository.dart';
+
 
 class ProfileState {
   final ProfileData? profile;
@@ -103,7 +104,7 @@ final profileControllerProvider = StateNotifierProvider<ProfileNotifier, Profile
 
   final loginState = ref.watch(loginProvider);
   final token = loginState.user?.accessToken ?? '';
-  final userId = loginState.user?.data?.id ?? 0;
+  final userId = loginState.user?.data.id ?? 0;
 
   return ProfileNotifier(repo, token, userId);
 });

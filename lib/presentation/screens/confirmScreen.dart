@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trainer_app/presentation/widgets/backgroundImage.dart';
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class ConfirmScreen extends StatelessWidget {

@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:trainer_app/global/api_config.dart';
 
 class ObjetiveExerciseApi {
-  final String _url = 'http://192.168.15.90:8000';
+  final http.Client _client;
+  final String _url = ApiConfig.baseUrl;
+  ObjetiveExerciseApi({http.Client? client}) : _client = client ?? http.Client();
    Future<List<dynamic>> getAllObjetiveExercise(String token) async {
-  final uri = Uri.parse('$_url/api/objetive');
-  final response = await http.get(uri, headers: {
+  final uri = Uri.parse('$_url/objetive');
+  final response = await _client.get(uri, headers: {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
   });
@@ -21,9 +24,9 @@ class ObjetiveExerciseApi {
   }
 }
 Future<void> createObjetive(String token, Map<String, dynamic> body) async {
-  final uri = Uri.parse('$_url/api/objetive');
+  final uri = Uri.parse('$_url/objetive');
 
-  final response = await http.post(
+  final response = await _client.post(
     uri,
     headers: {
       'Authorization': 'Bearer $token',
@@ -37,9 +40,9 @@ Future<void> createObjetive(String token, Map<String, dynamic> body) async {
   }
 }
 Future<void> updateObjetive(String token, int id, Map<String, dynamic> body) async {
-  final uri = Uri.parse('$_url/api/objetive/$id');
+  final uri = Uri.parse('$_url/objetive/$id');
 
-  final response = await http.put(
+  final response = await _client.put(
     uri,
     headers: {
       'Authorization': 'Bearer $token',
@@ -53,9 +56,9 @@ Future<void> updateObjetive(String token, int id, Map<String, dynamic> body) asy
   }
 }
 Future<void> deleteObjetive(String token, int id) async {
-  final uri = Uri.parse('$_url/api/objetive/$id');
+  final uri = Uri.parse('$_url/objetive/$id');
 
-  final response = await http.delete(
+  final response = await _client.delete(
     uri,
     headers: {
       'Authorization': 'Bearer $token',

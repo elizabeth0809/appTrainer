@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:trainer_app/global/api_config.dart';
 
 class UserSchudelingApi {
-  final String _url = 'http://192.168.15.90:8000';
-
+  final http.Client _client;
+  final String _url = ApiConfig.baseUrl;
+UserSchudelingApi({http.Client? client}) : _client = client ?? http.Client();
+//create
 Future<Map<String, dynamic>> create(Map<String, dynamic> data, String token) async {
-  final uri = Uri.parse('$_url/api/scheduling/');
-  final response = await http.post(
+  final uri = Uri.parse('$_url/scheduling/');
+  final response = await _client.post(
     uri,
     headers: {
       'Authorization': 'Bearer $token',
@@ -22,9 +25,10 @@ Future<Map<String, dynamic>> create(Map<String, dynamic> data, String token) asy
     throw Exception('Error al crear scheduling: ${response.statusCode}');
   }
 }
+//all
  Future<List<dynamic>> getAll(String token) async {
-  final uri = Uri.parse('$_url/api/scheduling');
-  final response = await http.get(uri, headers: {
+  final uri = Uri.parse('$_url/scheduling');
+  final response = await _client.get(uri, headers: {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
   });
@@ -37,9 +41,10 @@ Future<Map<String, dynamic>> create(Map<String, dynamic> data, String token) asy
     throw Exception('Error ${response.statusCode}');
   }
 }
+//me
 Future<List<dynamic>> getMyScheduliung(String token) async {
-  final uri = Uri.parse('$_url/api/my-scheduling');
-  final response = await http.get(uri, headers: {
+  final uri = Uri.parse('$_url/my-scheduling');
+  final response = await _client.get(uri, headers: {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
   });
@@ -53,9 +58,10 @@ Future<List<dynamic>> getMyScheduliung(String token) async {
     throw Exception('Error ${response.statusCode}');
   }
 }
+//delete
 Future<void> delete(int id, String token) async {
-  final uri = Uri.parse('$_url/api/scheduling/$id/');
-  final response = await http.delete(
+  final uri = Uri.parse('$_url/scheduling/$id/');
+  final response = await _client.delete(
     uri,
     headers: {
       'Authorization': 'Bearer $token',

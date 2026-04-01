@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/domain/controller/objetiveExerciseController.dart';
-import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+
 
 class AdminObjetiveScreen extends ConsumerWidget {
   const AdminObjetiveScreen({super.key});

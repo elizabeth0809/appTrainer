@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/global/api_config.dart';
 
 class ProfileApi {
-  final String _url = 'http://192.168.15.90:8000/api';
-
+  final http.Client _client;
+  final String _url = ApiConfig.baseUrl;
+ProfileApi({http.Client? client}) : _client = client ?? http.Client();
 Future<List<dynamic>> getAllUsers(String token) async {
-  final response = await http.get(
+  final response = await _client.get(
     Uri.parse('$_url/profile/'),
     headers: {
       'Authorization': 'Bearer $token',
@@ -22,7 +24,7 @@ Future<List<dynamic>> getAllUsers(String token) async {
   }
 }
 Future<UserData> getProfile(String token) async {
-  final response = await http.get(
+  final response = await _client.get(
     Uri.parse('$_url/profile-me'),
     headers: {
       'Authorization': 'Bearer $token',
@@ -37,7 +39,7 @@ Future<UserData> getProfile(String token) async {
   }
 }
 Future<void> createProfile(Map<String, dynamic> data, String token) async {
-  final response = await http.post(
+  final response = await _client.post(
     Uri.parse('$_url/profile/'),
     headers: {
       'Authorization': 'Bearer $token',
@@ -52,7 +54,7 @@ Future<void> createProfile(Map<String, dynamic> data, String token) async {
   }
 }
  Future<void> updateProfileData(Map<String, dynamic> data, String token) async {
-  final response = await http.put(
+  final response = await _client.put(
     Uri.parse('$_url/profile-user'),
     headers: {
       'Authorization': 'Bearer $token',
@@ -63,16 +65,16 @@ Future<void> createProfile(Map<String, dynamic> data, String token) async {
   );
 
   if (response.statusCode != 200) {
-    throw Exception('Error al actualizar perfil: ${response.body}');
+   throw Exception('Error ${response.statusCode}: ${response.body}');
   }
 }
   Future<List<dynamic>> getMeasurements(String token) async {
-    final response = await http.get(Uri.parse('$_url/measurement/'), headers: {'Authorization': 'Bearer $token'});
+    final response = await _client.get(Uri.parse('$_url/measurement/'), headers: {'Authorization': 'Bearer $token'});
     final decoded = jsonDecode(response.body);
     return decoded is List ? decoded : decoded['data'] ?? [];
   }
   Future<void> createMeasurement(Map<String, dynamic> data, String token) async {
-  final response = await http.post(
+  final response = await _client.post(
     Uri.parse('$_url/measurement/'),
     headers: {
       'Authorization': 'Bearer $token',
@@ -87,7 +89,7 @@ Future<void> createProfile(Map<String, dynamic> data, String token) async {
   }
 }
   Future<void> updateMeasurementProfile(Map<String, dynamic> data, String token) async {
-  final response = await http.put(
+  final response = await _client.put(
     Uri.parse('$_url/measurement-profile'),
     headers: {
       'Authorization': 'Bearer $token', 

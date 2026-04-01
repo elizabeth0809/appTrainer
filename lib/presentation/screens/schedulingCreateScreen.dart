@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:trainer_app/domain/controller/userSchedulingController.dart';
-import 'package:trainer_app/domain/models/openingScheduleModel.dart';
-import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
-import 'package:trainer_app/domain/provider/openingProvider.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
+import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class SchedulingCreateScreen extends ConsumerStatefulWidget {

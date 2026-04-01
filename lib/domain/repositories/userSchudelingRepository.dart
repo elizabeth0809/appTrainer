@@ -1,5 +1,6 @@
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/global/userSchudelingApi.dart';
+import 'package:trainer_app/global/global.dart';
+
 
 class UserSchudelingRepository {
   final UserSchudelingApi api;

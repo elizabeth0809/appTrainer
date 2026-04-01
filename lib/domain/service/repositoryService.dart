@@ -1,10 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trainer_app/domain/repositories/userSchudelingRepository.dart';
-import 'package:trainer_app/global/loginApi.dart';
-import 'package:trainer_app/global/userSchudelingApi.dart';
-
-import '../repositories/authRepository.dart';
-
+import 'package:trainer_app/domain/repositories/repository.dart';
+import 'package:trainer_app/global/global.dart';
 final repositoryProvider = Provider<RepositoryService>((ref){
   final authRepository = AuthRepository(HttpService());
   final userSRepository = UserSchudelingRepository(UserSchudelingApi());

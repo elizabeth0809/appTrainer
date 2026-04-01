@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/domain/controller/profileController.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
-import 'package:trainer_app/domain/provider/userProvider.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class AdminPermissionsScreen extends ConsumerWidget {

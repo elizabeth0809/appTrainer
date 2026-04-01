@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:trainer_app/domain/controller/profileController.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
+
 
 
 class CreateProfileScreen extends ConsumerStatefulWidget {

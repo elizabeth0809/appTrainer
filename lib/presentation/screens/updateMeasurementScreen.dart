@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:trainer_app/domain/controller/profileController.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
 import 'package:trainer_app/domain/models/model.dart';
 
 class UpdateMeasurementScreen extends ConsumerStatefulWidget {

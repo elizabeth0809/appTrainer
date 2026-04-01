@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+
 import 'package:trainer_app/domain/service/repositoryService.dart';
 
 final userSchedulingProvider = StateNotifierProvider<UserSchedulingNotifier, UserSchedulingState>((ref) {

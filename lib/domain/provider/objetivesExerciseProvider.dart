@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trainer_app/domain/models/model.dart'; // Ajusta a tu path real
-import 'package:trainer_app/domain/provider/loginProvider.dart'; // Para el token
-import 'package:trainer_app/domain/service/objetiveExerciseRepositoryService.dart';
+import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+import 'package:trainer_app/domain/service/service.dart';
+
 
 final objetivosFutureProvider = FutureProvider<List<ObjetiveDatum>>((ref) async {
   try {

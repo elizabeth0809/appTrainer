@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:trainer_app/global/api_config.dart';
 
 class OpeningApi {
-  final String _url = 'http://192.168.15.90:8000';
+  final http.Client _client;
+  final String _url = ApiConfig.baseUrl;
+  OpeningApi({http.Client? client}) : _client = client ?? http.Client();
   Future<List<dynamic>> getAllOpeningApi(String token) async {
-  final uri = Uri.parse('$_url/api/opening');
-  final response = await http.get(uri, headers: {
+  final uri = Uri.parse('$_url/opening');
+  final response = await _client.get(uri, headers: {
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json',
   });
@@ -25,9 +28,9 @@ class OpeningApi {
   }
 }
 Future<void> createOpening(String token, Map<String, dynamic> body) async {
-  final uri = Uri.parse('$_url/api/opening');
+  final uri = Uri.parse('$_url/opening');
 
-  final response = await http.post(
+  final response = await _client.post(
     uri,
     headers: {
       'Authorization': 'Bearer $token',
@@ -41,9 +44,9 @@ Future<void> createOpening(String token, Map<String, dynamic> body) async {
   }
 }
 Future<void> updateOpening(String token, int id, Map<String, dynamic> body) async {
-  final uri = Uri.parse('$_url/api/opening/$id');
+  final uri = Uri.parse('$_url/opening/$id');
 
-  final response = await http.put(
+  final response = await _client.put(
     uri,
     headers: {
       'Authorization': 'Bearer $token',
@@ -59,7 +62,7 @@ Future<void> updateOpening(String token, int id, Map<String, dynamic> body) asyn
 Future<void> deleteOpening(String token, int id) async {
   final uri = Uri.parse('$_url/api/opening/$id');
 
-  final response = await http.delete(
+  final response = await _client.delete(
     uri,
     headers: {
       'Authorization': 'Bearer $token',

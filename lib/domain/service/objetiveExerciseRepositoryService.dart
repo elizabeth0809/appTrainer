@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trainer_app/domain/repositories/authRepository.dart';
-import 'package:trainer_app/domain/repositories/objetiveRepository.dart';
-import 'package:trainer_app/global/loginApi.dart';
-import 'package:trainer_app/global/objetiveExerciseApi.dart';
+import 'package:trainer_app/domain/repositories/repository.dart';
+import 'package:trainer_app/global/global.dart';
+
 
 class ObjetiveExerciseRepositoryService {
   final AuthRepository authRepository;

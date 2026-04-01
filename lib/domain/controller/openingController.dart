@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
-import 'package:trainer_app/domain/provider/loginProvider.dart';
-import 'package:trainer_app/domain/provider/openingProvider.dart';
-import 'package:trainer_app/domain/service/openingRepositoryService.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+import 'package:trainer_app/domain/service/service.dart';
+
 
 final openingControllerProvider =
     StateNotifierProvider<OpeningController, AsyncValue<void>>((ref) {

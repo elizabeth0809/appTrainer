@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
-import 'package:trainer_app/domain/models/exerciseModel.dart';
-import 'package:trainer_app/domain/provider/secureStorageProvider.dart';
-import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
-import 'package:trainer_app/global/exerciseApi.dart';
+import 'package:trainer_app/domain/models/model.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+import 'package:trainer_app/domain/repositories/repository.dart';
+import 'package:trainer_app/global/global.dart';
+
 class ExercisesState {
   final List<Exercise> exercises;
   final bool isLoading;
@@ -114,6 +115,7 @@ class ExerciseNotifier extends StateNotifier<ExercisesState> {
   }
 }
 final exerciseProvider = StateNotifierProvider<ExerciseNotifier, ExercisesState>((ref) {
-  final repo = ExerciseRepository(ExerciseApi());
+  final client = http.Client();
+  final repo = ExerciseRepository(ExerciseApi(client: client));
   return ExerciseNotifier(repo, ref);
 });

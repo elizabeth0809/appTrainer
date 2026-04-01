@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart'; // Para formatear fechas
-import 'package:trainer_app/domain/controller/profileController.dart';
+import 'package:intl/intl.dart';
+import 'package:trainer_app/domain/controller/controller.dart'; 
 import 'package:trainer_app/domain/models/model.dart';
 
 class UpdateProfileScreen extends ConsumerStatefulWidget {

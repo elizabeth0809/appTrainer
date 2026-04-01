@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trainer_app/domain/repositories/authRepository.dart';
-import 'package:trainer_app/global/loginApi.dart';
-import 'package:trainer_app/domain/repositories/exerciseRepository.dart';
-import 'package:trainer_app/global/exerciseApi.dart';
+import 'package:http/http.dart' as http;
+import 'package:trainer_app/domain/repositories/repository.dart';
+import 'package:trainer_app/global/global.dart';
+
 class ExerciseRepositoryService {
   final AuthRepository authRepository;
   final ExerciseRepository exerciseRepository;
@@ -14,7 +14,8 @@ class ExerciseRepositoryService {
 }
 final repositoryProvider = Provider<ExerciseRepositoryService>((ref) {
   final httpService = HttpService(); 
-  final exerciseApi = ExerciseApi();
+  final client = http.Client();
+   final exerciseApi = ExerciseApi(client: client);
 
   final authRepository = AuthRepository(httpService);
   final exerciseRepository = ExerciseRepository(exerciseApi);

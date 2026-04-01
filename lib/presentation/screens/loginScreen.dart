@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_app/domain/models/model.dart';
-import 'package:trainer_app/domain/provider/objetivesExerciseProvider.dart';
-import 'package:trainer_app/domain/provider/userProvider.dart';
-import 'package:trainer_app/global/loginApi.dart';
+import 'package:trainer_app/domain/provider/provider.dart';
+import 'package:trainer_app/global/global.dart';
+
 import 'package:trainer_app/presentation/widgets/widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -34,9 +34,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-final httpService = HttpService();
+final httpServiceProvider = Provider<HttpService>((ref) {
+  return HttpService();
+});
 
 Future<void> handleLogin() async {
+  final httpService = ref.read(httpServiceProvider);
   try {
     final body = jsonEncode({
       "email": emailController.text,

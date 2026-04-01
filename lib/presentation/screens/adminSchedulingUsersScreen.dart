@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trainer_app/domain/controller/userSchedulingController.dart';
+import 'package:trainer_app/domain/controller/controller.dart';
+
 
 class SchedulingUsersScreen extends ConsumerStatefulWidget {
   const SchedulingUsersScreen({super.key});
