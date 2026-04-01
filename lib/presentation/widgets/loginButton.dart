@@ -34,11 +34,13 @@ class LoginButton extends ConsumerWidget {
     : () async {
         try {
           await ref.read(loginProvider.notifier).login(
-                emailController.text,
-                passwordController.text,
-              );
+          emailController.text,
+          passwordController.text,
+        );
           final user = ref.read(loginProvider).user;
-          ref.read(userProvider.notifier).state = user;
+          if (user != null) {
+      ref.read(userProvider.notifier).state = user;
+    }
         } catch (err) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('$err')),

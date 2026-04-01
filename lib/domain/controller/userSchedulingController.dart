@@ -61,7 +61,6 @@ Future<void> createScheduling(Map<String, dynamic> schedulingData) async {
 }
 Future<void> getMyScheduliung() async {
   try {
-    print("Iniciando carga de scheduling...");
     final userSMy = await repositoryService.userSRepository.getMyScheduliung(state.accessToken);
     //print("RESULTADO API: $userSMy");
     state = state.copyWith(userSMyList: userSMy); 

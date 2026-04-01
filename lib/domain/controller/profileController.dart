@@ -36,20 +36,25 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this.repo, this.token, this.userId) : super(ProfileState()) {
     loadAll();
   }
-  Future<void> loadAll() async {
-  state = state.copyWith(isLoading: true);
-  try {
-    final response = await repo.getProfile(token);
-    state = state.copyWith(
-      profile: response.data,
-      measurements: response.data.userMeasurement,
-      isLoading: false,
-    );
-  } catch (e) {
-    print("Error cargando perfil: $e");
-    state = state.copyWith(isLoading: false);
+ Future<void> loadAll() async {
+    state = state.copyWith(isLoading: true);
+    
+    try {
+      final response = await repo.getProfile(token);
+      if (!mounted) return; 
+
+      state = state.copyWith(
+        profile: response.data,
+        measurements: response.data.userMeasurement,
+        isLoading: false,
+      );
+    } catch (e) {
+      print("Error cargando perfil: $e");
+      if (!mounted) return;
+
+      state = state.copyWith(isLoading: false);
+    }
   }
-}
 Future<void> createProfile(Map<String, dynamic> data) async {
   state = state.copyWith(isLoading: true);
   try {
